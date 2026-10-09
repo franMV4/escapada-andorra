@@ -1,7 +1,15 @@
+<!doctype html>
+<html lang="es">
 <title>Escapada a Andorra</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0C1722">
+<meta name="description" content="Plan, mapa, tiempo, restaurantes sin gluten, gasolineras y parkings para tres días en Andorra la Vella.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -9,7 +17,7 @@
 /* Layout: la página es una ascensión. Se abre en el valle (1.023 m) y sube hacia las cumbres; en escritorio un altímetro fijo marca la altitud, en móvil manda una barra inferior tipo app. */
 :root{
   --bg:#ECEFED; --surface:#FAFBFA; --ink:#14201D; --muted:#55625E; --line:#CFD7D4;
-  --larch:#A9620F; --larch-soft:#F2E2CB; --valira:#22665F; --valira-soft:#D3E8E3; --alpen:#A94A36; --alpen-soft:#F3DCD4;
+  --larch:#A9620F; --larch-soft:#F2E2CB; --valira:#22665F; --valira-soft:#D3E8E3; --alpen:#A94A36; --alpen-soft:#F3DCD4; --sky:#2F5E8C;
   --display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
   --body:"Manrope", "Segoe UI", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
@@ -20,18 +28,20 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0D1412; --surface:#141D1B; --ink:#E4EBE8; --muted:#94A39E; --line:#25312E;
-  --larch:#E3A54C; --larch-soft:#3A2C17; --valira:#72BDB2; --valira-soft:#16302C; --alpen:#E58B74; --alpen-soft:#3A201A;
+  --larch:#E3A54C; --larch-soft:#3A2C17; --valira:#72BDB2; --valira-soft:#16302C; --alpen:#E58B74; --alpen-soft:#3A201A; --sky:#86B4E0;
   --shadow:0 1px 2px rgb(0 0 0 / .3), 0 18px 40px -18px rgb(0 0 0 / .7); color-scheme:dark }}
 :root[data-theme="dark"]{
   --bg:#0D1412; --surface:#141D1B; --ink:#E4EBE8; --muted:#94A39E; --line:#25312E;
-  --larch:#E3A54C; --larch-soft:#3A2C17; --valira:#72BDB2; --valira-soft:#16302C; --alpen:#E58B74; --alpen-soft:#3A201A;
+  --larch:#E3A54C; --larch-soft:#3A2C17; --valira:#72BDB2; --valira-soft:#16302C; --alpen:#E58B74; --alpen-soft:#3A201A; --sky:#86B4E0;
   --shadow:0 1px 2px rgb(0 0 0 / .3), 0 18px 40px -18px rgb(0 0 0 / .7); color-scheme:dark }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--body);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{max-width:100%}
+[hidden]{display:none!important}
 a{color:inherit}
-button{font:inherit;color:inherit;touch-action:manipulation}
+button,input,textarea{font:inherit;color:inherit;touch-action:manipulation}
 :focus-visible{outline:2px solid var(--larch);outline-offset:3px;border-radius:6px}
 .wrap{max-width:1080px;margin-inline:auto;padding-inline:var(--g)}
 h1,h2,h3{font-family:var(--display);font-weight:500;text-wrap:balance;margin:0;letter-spacing:-.01em}
@@ -41,7 +51,7 @@ p{margin:0}
 
 /* ---------- HERO ---------- */
 .hero{position:relative;isolation:isolate;color:var(--hero-ink);background:linear-gradient(#0C1722,#22384A 55%,#9A6E5C);
-  padding-block:clamp(72px,13vh,150px) clamp(190px,30vh,360px);overflow:hidden}
+  padding-block:calc(clamp(72px,13vh,150px) + env(safe-area-inset-top,0px)) clamp(190px,30vh,360px);overflow:hidden}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block}
 .hero .eyebrow,.hero h1,.lede{text-shadow:0 2px 24px rgb(8 16 24 / .55)}
 .hero .eyebrow{color:#E9C99A;animation:fadeup 1s var(--ease) .1s both}
@@ -52,12 +62,14 @@ p{margin:0}
 .lede{max-width:34ch;font-size:clamp(1.05rem,2vw,1.3rem);line-height:1.5;margin-top:24px;color:#E2DED6;animation:fadeup 1s var(--ease) .55s both}
 .trip{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;animation:fadeup 1s var(--ease) .75s both}
 .chip{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;border:1px solid rgb(244 238 228 / .28);
-  background:rgb(12 23 34 / .35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:.92rem}
+  background:rgb(12 23 34 / .35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:.92rem;color:var(--hero-ink)}
 .chip b{font-weight:600}
 .chip.live{border-color:#E9C99A;color:#F6DDB3}
 .chip.live i{width:7px;height:7px;border-radius:50%;background:#F2CE98;animation:ping 2s infinite}
+button.chip{cursor:pointer;font-weight:600;background:#F2CE98;color:#1A1712;border-color:#F2CE98}
 .scrollcue{position:absolute;left:50%;bottom:22px;translate:-50% 0;color:var(--ink);opacity:.7;display:flex;flex-direction:column;align-items:center;gap:6px}
 .scrollcue span{width:1px;height:38px;background:linear-gradient(currentColor,transparent);animation:cue 2.2s var(--ease) infinite}
+.offline{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top,0px));translate:-50% 0;z-index:95;background:var(--alpen);color:#fff;font-weight:600;font-size:.8rem;padding:6px 14px;border-radius:999px;box-shadow:var(--shadow)}
 
 /* ---------- NAV ---------- */
 .topnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in oklab,var(--bg) 80%,transparent);
@@ -71,11 +83,15 @@ p{margin:0}
 
 /* ---------- SECTIONS ---------- */
 section{padding-block:clamp(64px,10vw,120px)}
-.sec-head{display:grid;gap:12px;margin-bottom:clamp(28px,5vw,52px);max-width:720px}
+.sec-head{display:grid;gap:12px;margin-bottom:clamp(24px,4vw,44px);max-width:720px}
 .sec-head .mono{color:var(--larch)}
 .sec-head h2{font-size:clamp(2.4rem,6.4vw,4.6rem);line-height:.95}
 .sec-head h2 em{color:var(--larch);font-weight:400}
 .sec-head p{color:var(--muted);font-size:1.05rem;max-width:58ch}
+.sub{font-size:clamp(1.5rem,3vw,2rem);margin:34px 0 8px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sub .mono{color:var(--larch)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:16px}
+.toolbar .filters{margin:0}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:22px}
 .spot{position:relative;isolation:isolate;overflow:hidden}
@@ -92,19 +108,35 @@ section{padding-block:clamp(64px,10vw,120px)}
 .ph .tag{position:absolute;left:12px;top:12px;font-family:var(--mono);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;
   background:rgb(12 20 18 / .62);color:#F4EEE4;padding:4px 9px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .ph .illus{left:auto;right:10px;top:auto;bottom:10px;font-size:.6rem;opacity:.85}
+.ph .dtag{left:auto;right:12px}
 
-/* add-to-plan button */
 .add{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);
   background:var(--surface);font-weight:600;font-size:.86rem;cursor:pointer;transition:background .3s,border-color .3s,color .3s,transform .2s;white-space:nowrap}
 .add:active{transform:scale(.96)}
 .add::before{content:"+";font-size:1.1rem;line-height:1;font-weight:500}
 .add.in{background:var(--valira);border-color:var(--valira);color:var(--surface)}
 .add.in::before{content:"✓";font-size:.9rem}
-.row-end{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:10px;flex-wrap:wrap}
+.row-end{display:flex;align-items:center;gap:6px 14px;margin-top:auto;padding-top:10px;flex-wrap:wrap}
 .go{font-weight:600;font-size:.88rem;text-decoration:none;display:inline-flex;gap:6px;align-items:center;color:var(--muted);min-height:42px}
 .go::after{content:"↗";transition:transform .4s var(--ease)}
 .go:hover{color:var(--ink)}
 .go:hover::after{transform:translate(3px,-3px)}
+.go.strong{color:var(--larch)}
+.hrs{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--muted)}
+.hrs i{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.hrs.open i{background:var(--valira)} .hrs.open{color:var(--valira)}
+.hrs.closed i{background:var(--alpen)}
+.week{display:grid;grid-template-columns:auto 1fr;gap:1px 10px;font-size:.8rem;color:var(--muted);margin:0}
+.week dt{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+.week dd{margin:0}
+.week .x{color:var(--alpen)}
+.tel{font-family:var(--mono);font-size:.8rem}
+.tel a{text-decoration:none;color:var(--larch);font-weight:500}
+
+/* location toggle */
+.loc-btn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:.84rem;cursor:pointer}
+.loc-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.loc-btn.on{background:var(--sky);border-color:var(--sky);color:#fff}
 
 /* ---------- PLANNER ---------- */
 .planner{padding:clamp(14px,3vw,28px)}
@@ -117,31 +149,57 @@ section{padding-block:clamp(64px,10vw,120px)}
 .daytabs .pill{position:absolute;z-index:0;top:5px;bottom:5px;left:5px;width:calc((100% - 22px)/3);border-radius:14px;background:var(--surface);box-shadow:var(--shadow);
   transform:translateX(calc(var(--d,0) * (100% + 6px)));transition:transform .55s var(--ease)}
 .daytabs button[aria-selected="true"] small{color:var(--larch)}
-.dayview{margin-top:16px;min-height:150px}
-.plist{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:s}
-.pitem{display:grid;grid-template-columns:auto 64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px;border-radius:16px;background:var(--bg);border:1px solid var(--line);animation:pop .5s var(--ease) both}
-.pitem::before{counter-increment:s;content:counter(s);font-family:var(--display);font-size:1.5rem;width:24px;text-align:center;color:var(--larch)}
-.pitem .th{width:64px;height:64px;border-radius:12px;overflow:hidden;background:var(--larch-soft)}
+.daysum{display:flex;flex-wrap:wrap;gap:6px 16px;margin:14px 2px 4px;color:var(--muted);font-size:.84rem}
+.daysum b{color:var(--ink)}
+.dayview{margin-top:10px;min-height:150px}
+.plist{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.pitem{display:grid;grid-template-columns:34px 56px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px;border-radius:16px;background:var(--bg);border:1px solid var(--line);animation:pop .5s var(--ease) both;cursor:pointer}
+.pitem.done{opacity:.55}
+.pitem.done b{text-decoration:line-through}
+.chk{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;padding:0}
+.chk svg{width:16px;height:16px;stroke:var(--surface);fill:none;stroke-width:3;opacity:0}
+.done .chk{background:var(--valira);border-color:var(--valira)}
+.done .chk svg{opacity:1}
+.pitem .th{width:56px;height:56px;border-radius:12px;overflow:hidden;background:var(--larch-soft)}
 .pitem .th img{width:100%;height:100%;object-fit:cover;display:block}
 .pitem b{display:block;line-height:1.25}
 .pitem small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35;margin-top:2px}
-.pitem .acts{display:flex;gap:2px}
-.ib{width:38px;height:38px;border-radius:12px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;color:var(--muted);transition:background .25s,color .25s}
-.ib:hover{background:var(--surface);color:var(--ink)}
-.ib:disabled{opacity:.25;cursor:default}
+.ptime{font-family:var(--mono);font-size:.78rem;color:var(--larch);font-weight:500}
+.pnote{font-size:.82rem;color:var(--ink);margin-top:3px;white-space:pre-wrap;overflow-wrap:anywhere}
+.warn{display:inline-block;margin-top:4px;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--alpen-soft);color:var(--alpen)}
+.warn.soft{background:var(--larch-soft);color:var(--larch)}
+.tx{list-style:none;display:flex;align-items:center;gap:8px;padding:6px 0 6px 52px;color:var(--muted);font-size:.78rem;font-family:var(--mono)}
+.tx::before{content:"";width:2px;height:18px;background:repeating-linear-gradient(var(--line) 0 3px,transparent 3px 6px)}
+.gap{list-style:none;height:10px}
+.ped{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;padding-top:8px;border-top:1px dashed var(--line);margin-top:4px;cursor:default}
+.ped input[type=time]{min-height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);padding:6px 10px;font-family:var(--mono)}
+.ped textarea{min-height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);padding:9px 12px;resize:vertical;font-size:16px;width:100%}
+.ped .acts{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.ib{min-width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:inline-grid;place-items:center;color:var(--ink);padding:0 10px;gap:6px;font-weight:600;font-size:.82rem;grid-auto-flow:column}
+.ib:disabled{opacity:.3;cursor:default}
 .ib svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ib.danger{color:var(--alpen)}
 .empty{border:1.5px dashed var(--line);border-radius:18px;padding:28px 20px;text-align:center;display:grid;gap:10px;justify-items:center;animation:pop .5s var(--ease) both}
 .empty .mono{color:var(--larch)}
 .empty p{color:var(--muted);max-width:40ch}
 .empty .jump{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:4px}
 .empty .jump a{text-decoration:none;font-weight:600;font-size:.88rem;padding:9px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
 .plan-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;color:var(--muted);font-size:.84rem;flex-wrap:wrap}
+.plan-acts{display:flex;gap:8px;flex-wrap:wrap}
 .linkbtn{border:0;background:none;color:var(--alpen);font-weight:600;cursor:pointer;padding:8px 0;font-size:.86rem}
+.sharep{margin-top:12px;padding:14px;border-radius:16px;background:var(--bg);border:1px solid var(--line);display:grid;gap:10px}
+.sharep .row{display:flex;flex-wrap:wrap;gap:8px}
+.sharep a,.sharep button{text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:.88rem;cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.wa{background:#1FA855;border-color:#1FA855;color:#fff}
+.banner{margin-bottom:14px;padding:16px;border-radius:18px;background:var(--larch-soft);border:1px solid color-mix(in oklab,var(--larch) 35%,transparent);display:grid;gap:10px}
+.banner b{font-family:var(--display);font-size:1.3rem;font-weight:500}
 
 /* sheet */
-dialog.sheet{border:0;padding:0;background:transparent;max-width:min(460px,100vw);width:100%;margin:auto auto 0;max-height:none;overflow:visible}
+dialog.sheet{border:0;padding:0;background:transparent;max-width:min(460px,100vw);width:100%;margin:auto auto 0;max-height:none;overflow:visible;color:var(--ink)}
 dialog.sheet::backdrop{background:rgb(8 14 12 / .5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
-.sheet-in{background:var(--surface);color:var(--ink);border-radius:26px 26px 0 0;padding:12px 20px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:var(--shadow);border:1px solid var(--line)}
+.sheet-in{background:var(--surface);color:var(--ink);border-radius:26px 26px 0 0;padding:12px 20px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:var(--shadow);border:1px solid var(--line);max-height:85vh;overflow:auto}
 dialog.sheet[open] .sheet-in{animation:sheetup .5s var(--ease) both}
 .grab{width:42px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 14px}
 .sheet h3{font-size:1.6rem;line-height:1.1}
@@ -150,36 +208,69 @@ dialog.sheet[open] .sheet-in{animation:sheetup .5s var(--ease) both}
 .sheet-days button{border:1.5px solid var(--line);background:var(--bg);border-radius:16px;padding:14px 6px;cursor:pointer;display:grid;justify-items:center;gap:2px;transition:background .3s,border-color .3s,color .3s,transform .2s}
 .sheet-days b{font-family:var(--display);font-size:1.8rem;line-height:1;font-weight:500}
 .sheet-days small{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sheet-days em{font-style:normal;font-size:.68rem;color:var(--alpen);font-weight:700}
 .sheet-days button[aria-pressed="true"]{background:var(--valira);border-color:var(--valira);color:var(--surface)}
-.sheet-days button[aria-pressed="true"] small{color:var(--surface)}
+.sheet-days button[aria-pressed="true"] small,.sheet-days button[aria-pressed="true"] em{color:var(--surface)}
 .sheet-days button:active{transform:scale(.96)}
 .sheet .done{width:100%;margin-top:14px;min-height:50px;border-radius:16px;border:0;background:var(--ink);color:var(--bg);font-weight:700;cursor:pointer}
+.morelist{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.morelist a{display:flex;align-items:center;min-height:52px;padding:10px 14px;border-radius:14px;background:var(--bg);border:1px solid var(--line);text-decoration:none;font-weight:600}
 @media (min-width:700px){dialog.sheet{margin:auto}.sheet-in{border-radius:26px}}
 
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));translate:-50% 0;z-index:90;background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:999px;
   font-weight:600;font-size:.9rem;box-shadow:var(--shadow);opacity:0;transform:translateY(20px);transition:opacity .35s,transform .5s var(--ease);pointer-events:none;white-space:nowrap;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis}
 .toast.show{opacity:1;transform:none}
 
-/* Valley map */
-.valley{padding:clamp(16px,3vw,34px);view-timeline:--valley}
-.map-scroll{overflow-x:auto;margin-inline:-6px;padding-inline:6px;overscroll-behavior-x:contain}
-.map-scroll svg{display:block;width:100%;min-width:680px;height:auto}
-.valley .route{fill:none;stroke-linecap:round;stroke-linejoin:round}
-.r-main{stroke:var(--ink);stroke-width:5}
-.r-n{stroke:var(--valira);stroke-width:5}
-.r-e{stroke:var(--larch);stroke-width:5}
-.r-trail{stroke:var(--muted);stroke-width:2.5;stroke-dasharray:2 9}
-.valley .river{fill:none;stroke:var(--valira-soft);stroke-width:22;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
-.stop circle{fill:var(--surface);stroke:var(--ink);stroke-width:3}
-.stop text{fill:var(--ink);font-family:var(--body);font-size:17px;font-weight:600}
-.stop .alt{fill:var(--muted);font-family:var(--mono);font-size:12.5px;font-weight:400}
-.stop a:hover text{fill:var(--larch)}
-.hotel circle.core{fill:var(--larch);stroke:var(--surface)}
-.hotel .ring{fill:none;stroke:var(--larch);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:ring 2.4s var(--ease) infinite}
-.map-legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:16px;color:var(--muted);font-size:.88rem}
-.map-legend span{display:inline-flex;align-items:center;gap:8px}
-.map-legend i{width:22px;height:4px;border-radius:2px;display:inline-block}
-.swipe-hint{display:none}
+/* ---------- WEATHER ---------- */
+.wx-meta{color:var(--muted);font-size:.86rem;margin-bottom:14px}
+.wx-days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.wx-card{padding:20px;display:grid;gap:12px}
+.wx-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.wx-top h3{font-size:1.5rem}
+.wx-ico{width:46px;height:46px;flex:none;color:var(--larch)}
+.wx-ico svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.wx-t{font-family:var(--mono);font-size:1.6rem;font-variant-numeric:tabular-nums}
+.wx-t small{font-size:.9rem;color:var(--muted)}
+.wx-half{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wx-half div{padding:10px;border-radius:12px;background:var(--bg);font-size:.84rem}
+.wx-half b{display:block;font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+.tbl-wrap{overflow-x:auto;border-radius:18px;border:1px solid var(--line);background:var(--surface)}
+.wx-tbl{width:100%;border-collapse:collapse;min-width:560px;font-size:.88rem}
+.wx-tbl th,.wx-tbl td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+.wx-tbl tr:last-child td{border-bottom:0}
+.wx-tbl th{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+.wx-tbl td small{display:block;color:var(--muted);font-family:var(--mono);font-size:.72rem}
+.vd{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-weight:700;font-size:.76rem;white-space:nowrap}
+.vd.good{background:var(--valira-soft);color:var(--valira)}
+.vd.meh{background:var(--larch-soft);color:var(--larch)}
+.vd.bad{background:var(--alpen-soft);color:var(--alpen)}
+.vd svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
+.wxrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.wxrow:empty{display:none}
+
+/* ---------- MAP ---------- */
+.map-card{padding:10px;overflow:hidden}
+#map{height:min(64vh,560px);min-height:360px;border-radius:16px;background:var(--bg);z-index:0}
+.map-ph{display:grid;place-items:center;text-align:center;color:var(--muted);padding:20px}
+.map-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 10px}
+.map-chips::-webkit-scrollbar{display:none}
+.map-chips button{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:.82rem;cursor:pointer;opacity:.55;transition:opacity .25s,background .25s}
+.map-chips button[aria-pressed="true"]{opacity:1;background:var(--bg)}
+.map-chips i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.map-foot{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:10px 4px 2px}
+.mk{display:block;width:16px;height:16px;border-radius:50%;background:var(--c);border:2.5px solid #fff;box-shadow:0 2px 6px rgb(0 0 0 / .35)}
+.mk.hotel{width:22px;height:22px;background:#E3A54C;display:grid;place-items:center;color:#1A1712;font:700 12px/1 sans-serif}
+.mk.me{background:#2F7BEA;box-shadow:0 0 0 6px rgb(47 123 234 / .25)}
+.mk-lbl{display:inline-block;white-space:nowrap;padding:3px 7px;border-radius:8px;background:var(--c);color:#fff;font:600 11px/1.2 var(--mono);border:2px solid #fff;box-shadow:0 2px 6px rgb(0 0 0 / .3);transform:translate(-50%,-50%)}
+.leaflet-container{font-family:var(--body)!important}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface)!important;color:var(--ink)!important}
+.leaflet-popup-content{margin:12px 14px!important;font-size:.88rem;line-height:1.4}
+.leaflet-popup-content b{font-size:1rem}
+.pp-act{display:flex;gap:8px;margin-top:8px;align-items:center}
+.pp-act .add{min-height:34px;padding:4px 10px;font-size:.8rem}
+.leaflet-control-attribution{font-size:10px!important}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)}}
+:root[data-theme="dark"] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9)}
 
 /* Marquee */
 .marquee{overflow:hidden;border-block:1px solid var(--line);padding-block:16px;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
@@ -187,7 +278,8 @@ dialog.sheet[open] .sheet-in{animation:sheetup .5s var(--ease) both}
 .marquee span{font-family:var(--display);font-size:clamp(1.3rem,3vw,2.2rem);font-style:italic;white-space:nowrap}
 .marquee small{font-family:var(--mono);font-size:.78rem;font-style:normal;color:var(--larch);margin-left:10px;letter-spacing:.04em}
 
-/* Places + todo (grid on desktop, swipe rail on phones) */
+/* Places + todo */
+.swipe-hint{display:none}
 .rail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .place,.do{display:flex;flex-direction:column;min-width:0}
 .place .body,.do .body{padding:20px 22px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
@@ -242,9 +334,9 @@ dialog.sheet[open] .sheet-in{animation:sheetup .5s var(--ease) both}
 .rest p.d{font-size:.94rem}
 .rest .addr{font-family:var(--mono);font-size:.76rem;color:var(--muted);line-height:1.5}
 .disclaimer{margin-top:20px;font-size:.86rem;color:var(--muted);max-width:75ch}
+.emptylist{padding:24px;text-align:center;color:var(--muted);border:1.5px dashed var(--line);border-radius:18px}
 
-/* Fuel */
-.fuel-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+/* Lists (fuel, parking, pharmacies) */
 .seg{display:inline-grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:999px;background:var(--surface);border:1px solid var(--line);position:relative}
 .seg button{border:0;background:transparent;padding:9px 18px;border-radius:999px;font-weight:600;cursor:pointer;position:relative;z-index:1;min-height:40px;transition:color .3s}
 .seg button[aria-pressed="true"]{color:var(--bg)}
@@ -253,10 +345,11 @@ dialog.sheet[open] .sheet-in{animation:sheetup .5s var(--ease) both}
   background:linear-gradient(135deg,var(--valira),color-mix(in oklab,var(--valira) 70%,var(--ink)));color:var(--surface);border:0}
 .best .mono{opacity:.8}
 .best h3{font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.05}
-.best p{opacity:.85;font-size:.92rem}
+.best p{opacity:.88;font-size:.92rem}
 .best .pr{font-family:var(--mono);font-size:clamp(2.2rem,6vw,3.4rem);line-height:1;font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
 .best .pr small{display:block;font-size:.75rem;letter-spacing:.06em;opacity:.8;margin-top:6px}
 .best a{color:var(--surface)}
+.best.red{background:linear-gradient(135deg,var(--alpen),color-mix(in oklab,var(--alpen) 70%,var(--ink)))}
 .gas{list-style:none;margin:0;padding:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
 .gas li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:14px 18px;border-top:1px solid var(--line);animation:pop .45s var(--ease) both}
 .gas li:first-child{border-top:0}
@@ -269,15 +362,10 @@ dialog.sheet[open] .sheet-in{animation:sheetup .5s var(--ease) both}
 .gas .zero{color:var(--valira)}
 .gas a.nav{font-size:.8rem;font-weight:600;color:var(--larch);text-decoration:none}
 .more{display:block;margin:14px auto 0;min-height:46px;padding:10px 22px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;cursor:pointer}
-
-/* Parking */
-.sub{font-size:clamp(1.5rem,3vw,2rem);margin:34px 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.sub .mono{color:var(--larch)}
 .live-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;color:var(--muted);font-size:.86rem;flex-wrap:wrap}
 .live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--valira);margin-right:8px;animation:blink 1.6s ease-in-out infinite}
 .live-dot.off{background:var(--muted);animation:none}
 .refresh{min-height:38px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:.84rem;cursor:pointer}
-.refresh:active{transform:scale(.96)}
 .occ{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:6px;max-width:220px}
 .occ i{display:block;height:100%;width:calc(var(--f)*100%);border-radius:3px;background:var(--c);transition:width .8s var(--ease)}
 .free{font-family:var(--mono);font-size:1.25rem;font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
@@ -286,18 +374,35 @@ dialog.sheet[open] .sheet-in{animation:sheetup .5s var(--ease) both}
 .ok .free{color:var(--valira)} .mid .free{color:var(--larch)} .low .free{color:var(--alpen)}
 .pk-price{text-align:right;font-family:var(--mono);font-size:.82rem;line-height:1.35;max-width:150px}
 .pk-price b{font-size:1rem;font-weight:500}
-@keyframes blink{50%{opacity:.3}}
 
-/* Phrases */
+/* Customs */
+.cus-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.switch{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:.9rem;cursor:pointer}
+.switch input{appearance:none;width:46px;height:28px;border-radius:14px;background:var(--line);position:relative;cursor:pointer;transition:background .3s;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgb(0 0 0 / .3);transition:transform .3s var(--ease)}
+.switch input:checked{background:var(--valira)}
+.switch input:checked::after{transform:translateX(18px)}
+.cus{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.crow{padding:14px 16px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center}
+.crow b{display:block;line-height:1.25}
+.crow small{display:block;color:var(--muted);font-size:.78rem}
+.step{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
+.step button{width:40px;height:40px;border:0;background:transparent;font-size:1.2rem;cursor:pointer;border-radius:50%}
+.step input{width:56px;text-align:center;border:0;background:transparent;font-family:var(--mono);font-size:16px;-moz-appearance:textfield}
+.step input::-webkit-outer-spin-button,.step input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.crow .bar{grid-column:1/-1;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.crow .bar i{display:block;height:100%;width:calc(min(var(--p),1)*100%);background:var(--c,var(--valira));transition:width .5s var(--ease)}
+.crow .pct{grid-column:1/-1;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.crow.over{border-color:var(--alpen)}
+.crow.over .pct{color:var(--alpen)}
+
+/* Phrases + practical */
 .phrases{display:grid;gap:10px}
 .phrase{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:18px 22px}
 .phrase q{font-family:var(--display);font-size:clamp(1.25rem,2.6vw,1.75rem);font-style:italic;quotes:none;display:block;line-height:1.2}
 .phrase small{display:block;color:var(--muted);margin-top:4px;font-size:.9rem}
 .copy{font-weight:600;font-size:.82rem;min-height:40px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;cursor:pointer;min-width:84px;transition:background .3s,color .3s,transform .2s}
-.copy:active{transform:scale(.96)}
 .copy.done{background:var(--valira);color:var(--surface);border-color:var(--valira)}
-
-/* Practical */
 .prac{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .pr-card{padding:22px;display:grid;gap:8px;align-content:start}
 .pr-card .mono{color:var(--larch)}
@@ -331,19 +436,16 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
 @keyframes fadeup{from{opacity:0;transform:translateY(18px)}}
 @keyframes ping{0%{box-shadow:0 0 0 0 #F2CE98}70%,100%{box-shadow:0 0 0 9px transparent}}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@keyframes ring{from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}}
 @keyframes slide{to{transform:translateX(-50%)}}
 @keyframes reveal{from{opacity:0;transform:translateY(56px) scale(.97)}}
-@keyframes draw{from{stroke-dashoffset:1}}
 @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}}
 @keyframes sheetup{from{transform:translateY(100%)}}
 @keyframes bump{40%{transform:scale(1.3)}}
 @keyframes swipe{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes blink{50%{opacity:.3}}
 @supports (animation-timeline: view()){
   @media (prefers-reduced-motion:no-preference){
     .reveal{animation:reveal linear both;animation-timeline:view();animation-range:entry 0% cover 20%}
-    .valley .route{stroke-dasharray:1 0;animation:draw linear both;animation-timeline:--valley;animation-range:entry 20% cover 50%}
-    .valley .route.r-trail{animation:none}
   }
 }
 ::view-transition-group(*){animation-duration:.5s;animation-timing-function:var(--ease)}
@@ -358,6 +460,8 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
   .gf-key{grid-template-columns:minmax(0,1fr)}
   .hike{grid-template-columns:240px minmax(0,1fr)}
   .gauge{display:none}
+  .wx-days{grid-template-columns:minmax(0,1fr)}
+  .cus{grid-template-columns:minmax(0,1fr)}
 }
 
 /* ---------- PHONE ---------- */
@@ -366,11 +470,10 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
   body{font-size:15.5px}
   .topnav{display:none}
   section{padding-block:56px}
-  .hero{padding-block:64px 200px}
+  .hero{padding-block:calc(64px + env(safe-area-inset-top,0px)) 200px}
   .hero h1{margin-top:12px}
   .chip{font-size:.85rem;padding:8px 12px}
   .scrollcue{display:none}
-
   .rail{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:82%;overflow-x:auto;scroll-snap-type:x mandatory;
     margin-inline:calc(var(--g) * -1);padding-inline:var(--g);scroll-padding-inline:var(--g);gap:12px;padding-bottom:6px;scrollbar-width:none;overscroll-behavior-x:contain}
   .rail::-webkit-scrollbar{display:none}
@@ -378,15 +481,12 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
   .place.feat{grid-column:auto}
   .place.feat .ph{aspect-ratio:4/3}
   .place.feat h3{font-size:1.55rem}
-  .swipe-hint{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.82rem;margin:-14px 0 14px}
-  .valley .swipe-hint{margin:0 0 10px}
+  .swipe-hint{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.82rem;margin:-6px 0 14px}
   .swipe-hint i{display:inline-block;width:28px;height:2px;background:var(--line);position:relative;overflow:hidden}
   .swipe-hint i::after{content:"";position:absolute;inset:0;background:var(--larch);animation:swipe 1.8s var(--ease) infinite}
-
   .hike{grid-template-columns:minmax(0,1fr);padding:10px;gap:4px}
   .hike .ph{aspect-ratio:16/10;min-height:0;height:auto}
   .hike .info{padding:8px 8px 6px}
-
   .gf-key{padding:16px;gap:12px}
   .rests{grid-template-columns:minmax(0,1fr);gap:10px}
   .rest{display:grid;grid-template-columns:108px minmax(0,1fr);border-radius:18px}
@@ -399,37 +499,34 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
   .rest .row-end{padding-top:4px}
   .rest .add{min-height:38px;padding:6px 12px;font-size:.8rem}
   .rest .go{font-size:.8rem}
-
-  .pitem{grid-template-columns:52px minmax(0,1fr) auto;gap:10px;padding:8px}
-  .pitem::before{display:none}
-  .pitem .th{width:52px;height:52px}
-  .pitem .acts .ib{width:34px;height:40px}
+  .pitem{grid-template-columns:32px 48px minmax(0,1fr);gap:10px;padding:8px}
+  .pitem .th{width:48px;height:48px}
+  .tx{padding-left:44px}
   .daytabs b{font-size:1.6rem}
-
-  .fuel-top{display:grid}
-  .seg{width:100%}
   .best{grid-template-columns:minmax(0,1fr)}
   .best .pr{text-align:left}
   .gas li{padding:12px 14px;grid-template-columns:26px minmax(0,1fr) auto;gap:2px 10px}
   .phrase{grid-template-columns:minmax(0,1fr)}
   .copy{justify-self:start}
   .prac{grid-template-columns:minmax(0,1fr)}
+  #map{height:62vh}
   footer{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))}
-
   .tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:0;right:0;bottom:0;z-index:60;
     padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:color-mix(in oklab,var(--surface) 86%,transparent);
     backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);border-top:1px solid var(--line);transition:transform .5s var(--ease)}
   .tabbar.hide{transform:translateY(110%)}
-  .tabbar a{display:grid;justify-items:center;gap:2px;padding:6px 0;text-decoration:none;color:var(--muted);font-size:.68rem;font-weight:600;position:relative;min-height:48px;user-select:none;-webkit-user-select:none}
-  .tabbar a.on{color:var(--larch)}
+  .tabbar a,.tabbar button{display:grid;justify-items:center;align-content:center;gap:2px;padding:6px 0;text-decoration:none;color:var(--muted);font-size:.66rem;font-weight:600;position:relative;min-height:48px;user-select:none;-webkit-user-select:none;border:0;background:none;cursor:pointer}
+  .tabbar .on{color:var(--larch)}
   .tabbar svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .4s var(--ease)}
-  .tabbar a.on svg{transform:translateY(-2px)}
+  .tabbar .on svg{transform:translateY(-2px)}
   .tabbar .badge-n{position:absolute;top:2px;left:calc(50% + 6px);min-width:17px;height:17px;border-radius:9px;background:var(--larch);color:var(--surface);font:600 .62rem/17px var(--mono);padding-inline:4px;text-align:center}
   .tabbar .badge-n:empty{display:none}
   .tabbar .badge-n.bump{animation:bump .5s var(--ease)}
   .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 }
 </style>
+
+<div class="offline" id="offline" hidden>Sin conexión · usando datos guardados</div>
 
 <header class="hero" id="top" data-alt="1023" data-place="Andorra la Vella">
   <canvas id="ridges" aria-hidden="true"></canvas>
@@ -441,6 +538,7 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
       <span class="chip live"><i></i><b id="countdown">Sábado 10 → lunes 12 oct</b></span>
       <span class="chip">Sáb 10 · Dom 11 · Lun 12 oct</span>
       <span class="chip">Base: <b>Hotel Cosmos</b>, Escaldes</span>
+      <button type="button" class="chip" id="installBtn" hidden>Instalar en el móvil</button>
     </div>
   </div>
   <div class="scrollcue mono" aria-hidden="true">Sube<span></span></div>
@@ -448,7 +546,7 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
 
 <nav class="topnav" aria-label="Secciones">
   <div class="wrap">
-    <a href="#plan">Tu plan</a><a href="#mapa">Mapa</a><a href="#ciudad">Qué ver</a><a href="#excursiones">Excursiones</a><a href="#hacer">Qué hacer</a><a href="#comer">Sin gluten</a><a href="#gasolina">Gasolineras</a><a href="#parking">Parking</a><a href="#frases">Frases</a><a href="#practico">Práctico</a>
+    <a href="#plan">Tu plan</a><a href="#tiempo">Tiempo</a><a href="#mapa">Mapa</a><a href="#ciudad">Qué ver</a><a href="#excursiones">Excursiones</a><a href="#hacer">Qué hacer</a><a href="#comer">Sin gluten</a><a href="#gasolina">Gasolineras</a><a href="#parking">Parking</a><a href="#salud">Salud</a><a href="#aduana">Aduana</a><a href="#frases">Frases</a><a href="#practico">Práctico</a>
   </div>
 </nav>
 
@@ -458,8 +556,9 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
     <div class="sec-head reveal">
       <p class="mono">Sobre la marcha</p>
       <h2>Tu <em>plan</em></h2>
-      <p>Empieza vacío. Pulsa <b>+ Al plan</b> en cualquier sitio, excursión o restaurante, elige el día y se irá rellenando aquí. Se guarda en este móvil.</p>
+      <p>Pulsa <b>+ Al plan</b> en cualquier sitio, excursión o restaurante y elige el día. Toca cada cosa para ponerle hora y notas, o márcala como hecha. Se guarda en este móvil.</p>
     </div>
+    <div class="banner" id="importBanner" hidden></div>
     <div class="card planner">
       <div class="daytabs" role="tablist" aria-label="Día" id="daytabs">
         <span class="pill" aria-hidden="true"></span>
@@ -467,57 +566,48 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
         <button type="button" role="tab" id="tab-1" data-d="1"><small>Domingo</small><b>11</b><span class="cnt"></span></button>
         <button type="button" role="tab" id="tab-2" data-d="2"><small>Lunes</small><b>12</b><span class="cnt"></span></button>
       </div>
+      <div class="daysum" id="daysum"></div>
       <div class="dayview" id="dayview" role="tabpanel" aria-live="polite"></div>
-      <div class="plan-foot"><span id="savedNote">Se guarda solo en este navegador.</span><button type="button" class="linkbtn" id="clearDay" hidden>Vaciar este día</button></div>
+      <div class="plan-foot">
+        <span id="savedNote">Se guarda solo en este navegador.</span>
+        <div class="plan-acts">
+          <button type="button" class="btn" id="sortTime" hidden>Ordenar por hora</button>
+          <button type="button" class="btn primary" id="shareBtn">Compartir plan</button>
+        </div>
+      </div>
+      <div class="sharep" id="sharePanel" hidden></div>
+      <button type="button" class="linkbtn" id="clearDay" hidden>Vaciar este día</button>
     </div>
   </div>
 </section>
 
-<section id="mapa" data-alt="1023" data-place="Mapa de los valles" style="padding-top:0">
+<section id="tiempo" data-alt="1023" data-place="El tiempo" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="mono">Esquema de los valles</p>
-      <h2>Una <em>Y</em> de ríos</h2>
-      <p>El Gran Valira sube hasta Escaldes, donde duermes, y ahí se divide: el valle de Oriente hacia Canillo y el del Norte hacia Ordino.</p>
+      <p class="mono">Previsión por altitud · Open-Meteo</p>
+      <h2>El <em>tiempo</em></h2>
+      <p>En Escaldes, por la mañana (8–14 h) y por la tarde (14–20 h). En la montaña, el veredicto mira de 9 a 17 h: lluvia, nieve, viento y frío a la altura de cada ruta.</p>
     </div>
-    <div class="card valley reveal">
-      <p class="swipe-hint"><i></i>Desliza el mapa</p>
-      <div class="map-scroll">
-      <svg viewBox="0 0 900 560" role="img" aria-label="Esquema de los valles de Andorra con la ubicación del hotel en Escaldes">
-        <path class="river" d="M470 540 L455 430 L440 360 L478 318 L600 258 L668 222 L742 186 L812 152 M440 360 L392 262 L430 186 L410 122 L398 56 M392 262 L300 210"/>
-        <path class="route r-main" pathLength="1" d="M470 540 L455 430 L440 360 L478 318"/>
-        <path class="route r-n" pathLength="1" d="M440 360 L392 262 L430 186 L410 122 L398 56"/>
-        <path class="route r-n" pathLength="1" d="M392 262 L300 210"/>
-        <path class="route r-e" pathLength="1" d="M478 318 L600 258 L668 222 L742 186 L812 152"/>
-        <path class="route r-trail" d="M300 210 L220 158"/>
-        <path class="route r-trail" d="M478 318 L560 330 L600 312"/>
-        <path class="route r-trail" d="M478 318 L540 380 L600 430"/>
-        <path class="route r-trail" d="M742 186 L728 120"/>
-        <g class="stop"><circle cx="470" cy="540" r="7"/><text x="488" y="545">Sant Julià</text></g>
-        <g class="stop"><a href="#ciudad"><circle cx="455" cy="430" r="7"/><text x="474" y="435">Santa Coloma</text></a></g>
-        <g class="stop"><a href="#ciudad"><circle cx="440" cy="360" r="9"/><text x="300" y="380">Andorra la Vella</text><text class="alt" x="333" y="397">1.023 m</text></a></g>
-        <g class="stop hotel"><circle class="ring" cx="478" cy="318" r="10"/><circle class="core" cx="478" cy="318" r="10"/><text x="486" y="272">Escaldes</text><text class="alt" x="486" y="255">★ TU HOTEL</text></g>
-        <g class="stop"><a href="#excursiones"><circle cx="600" cy="312" r="7"/><text x="615" y="317">Engolasters</text><text class="alt" x="615" y="333">1.622 m</text></a></g>
-        <g class="stop"><a href="#excursiones"><circle cx="600" cy="430" r="7"/><text x="615" y="435">Vall del Madriu</text><text class="alt" x="615" y="451">UNESCO</text></a></g>
-        <g class="stop"><circle cx="600" cy="258" r="7"/><text x="590" y="287">Encamp</text></g>
-        <g class="stop"><a href="#hacer"><circle cx="668" cy="222" r="7"/><text x="682" y="244">Meritxell</text></a></g>
-        <g class="stop"><circle cx="742" cy="186" r="7"/><text x="756" y="206">Canillo</text></g>
-        <g class="stop"><a href="#excursiones"><circle cx="728" cy="120" r="7"/><text x="610" y="112">Roc del Quer</text><text class="alt" x="640" y="128">≈2.000 m</text></a></g>
-        <g class="stop"><circle cx="812" cy="152" r="7"/><text x="764" y="116">S. Joan de</text><text x="764" y="134">Caselles</text></g>
-        <g class="stop"><circle cx="392" cy="262" r="7"/><text x="406" y="280">La Massana</text></g>
-        <g class="stop"><circle cx="430" cy="186" r="7"/><text x="446" y="191">Ordino</text><text class="alt" x="446" y="207">VERTICAL · SG</text></g>
-        <g class="stop"><a href="#excursiones"><circle cx="410" cy="122" r="7"/><text x="428" y="127">Llorts · Ruta del Ferro</text></a></g>
-        <g class="stop"><a href="#excursiones"><circle cx="398" cy="56" r="7"/><text x="416" y="61">Arcalís · Tristaina</text><text class="alt" x="416" y="77">2.330 m</text></a></g>
-        <g class="stop"><circle cx="300" cy="210" r="7"/><text x="252" y="238">Arinsal</text></g>
-        <g class="stop"><a href="#excursiones"><circle cx="220" cy="158" r="7"/><text x="90" y="140">Coma Pedrosa</text><text class="alt" x="118" y="156">2.942 m</text></a></g>
-      </svg>
-      </div>
-      <div class="map-legend">
-        <span><i style="background:var(--ink)"></i>Gran Valira</span>
-        <span><i style="background:var(--larch)"></i>Valira d'Orient</span>
-        <span><i style="background:var(--valira)"></i>Valira del Nord</span>
-        <span><i style="background:repeating-linear-gradient(90deg,var(--muted) 0 3px,transparent 3px 8px)"></i>Pista o sendero</span>
-        <span>Sin escala</span>
+    <p class="wx-meta" id="wxMeta">Cargando previsión…</p>
+    <div class="wx-days" id="wxDays"></div>
+    <h3 class="sub">En la montaña <span class="mono">veredicto para caminar</span></h3>
+    <div class="tbl-wrap"><table class="wx-tbl" id="wxTbl"></table></div>
+  </div>
+</section>
+
+<section id="mapa" data-alt="1023" data-place="Mapa" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="mono">Todo en un mapa</p>
+      <h2>El <em>mapa</em></h2>
+      <p>Sitios, rutas, restaurantes, gasolineras con precio y parkings con plazas libres. Toca un punto para añadirlo al plan o ir hasta allí.</p>
+    </div>
+    <div class="card map-card">
+      <div class="map-chips" id="mapChips"></div>
+      <div id="map"><div class="map-ph" style="height:100%">Cargando mapa…</div></div>
+      <div class="map-foot">
+        <button type="button" class="loc-btn" data-loc></button>
+        <button type="button" class="refresh" id="mapAll">Ver todo Andorra</button>
       </div>
     </div>
   </div>
@@ -533,7 +623,7 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
     <div class="sec-head reveal">
       <p class="mono">Andorra la Vella y Escaldes</p>
       <h2>Lo que <em>ver</em> a pie</h2>
-      <p>Todo a menos de media hora andando desde el hotel, salvo Santa Coloma y la Margineda, a cinco minutos en coche.</p>
+      <p>Casi todo queda a menos de media hora andando desde el hotel. Ojo: la Casa de la Vall cierra domingos y lunes.</p>
     </div>
     <p class="swipe-hint"><i></i>Desliza para ver más</p>
     <div class="rail" id="places"></div>
@@ -545,7 +635,7 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
     <div class="sec-head reveal">
       <p class="mono">Excursiones cercanas · de menos a más altura</p>
       <h2>Subir <em>un poco</em> más</h2>
-      <p>En octubre las mañanas en altura son frías y puede caer la primera nieve por encima de 2.000 m: lleva capas y mira el parte el mismo día.</p>
+      <p>Cada ruta lleva la previsión de los tres días a su altura. En octubre puede caer la primera nieve por encima de 2.000 m.</p>
     </div>
     <div class="hikes" id="hikes"></div>
   </div>
@@ -575,8 +665,12 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
       <div><span class="badge b-care">Atentos</span><span><b>Sin carta específica</b>, pero reseñas de celíacos destacan que cuidan la contaminación.</span></div>
     </div>
     <div class="filters" role="group" aria-label="Filtrar restaurantes" id="filters"></div>
+    <div class="toolbar">
+      <div class="filters" role="group" aria-label="Orden" id="rSort"></div>
+      <button type="button" class="loc-btn" data-loc></button>
+    </div>
     <div class="rests" id="rests"></div>
-    <p class="disclaimer">Fuentes: Associació de Celíacs d'Andorra (vía Celiaquita), FindMeGlutenFree y reseñas de usuarios. Las fotos de los restaurantes son ilustrativas del tipo de comida, no del local. Confirma al reservar.</p>
+    <p class="disclaimer">Teléfonos y horarios de las webs de cada local, OpenStreetMap y guías; varios no coinciden entre fuentes, así que llama antes. Las fotos son ilustrativas del tipo de comida. Fuentes: Associació de Celíacs d'Andorra, FindMeGlutenFree y reseñas.</p>
   </div>
 </section>
 
@@ -585,20 +679,25 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
     <div class="sec-head reveal">
       <p class="mono">Precios oficiales · Govern d'Andorra</p>
       <h2>Gasolineras <em>baratas</em></h2>
-      <p>De más barata a más cara y, a igual precio, la más cercana al hotel primero. Precios actualizados por las estaciones entre el 6 y el 8 de octubre de 2026.</p>
+      <p>Los precios se descargan de la web del Govern cada vez que abres o recargas la página. Sin conexión verás los últimos que se guardaron.</p>
     </div>
-    <div class="fuel-top">
+    <div class="toolbar">
       <div class="seg" role="group" aria-label="Combustible" id="fuelSeg">
         <span class="knob" aria-hidden="true"></span>
         <button type="button" id="fuel-g" data-k="g" aria-pressed="true">Gasolina 95</button>
         <button type="button" id="fuel-d" data-k="d" aria-pressed="false">Diésel</button>
       </div>
-      <div class="filters" role="group" aria-label="Zona" id="zoneF" style="margin:0"></div>
+      <button type="button" class="loc-btn" data-loc></button>
     </div>
+    <div class="toolbar">
+      <div class="filters" role="group" aria-label="Zona" id="zoneF"></div>
+      <div class="filters" role="group" aria-label="Orden" id="gSort"></div>
+    </div>
+    <div class="live-row"><span><i class="live-dot off" id="gasDot"></i><span id="gasMeta">Comprobando precios de hoy…</span></span></div>
     <div class="card best" id="bestGas"></div>
     <ol class="gas" id="gasList"></ol>
     <button type="button" class="more" id="gasMore"></button>
-    <p class="disclaimer">Entre las cercanas la diferencia es de 1 a 2 céntimos por litro: no merece la pena desviarse. Comprueba el precio del día en la <a href="https://sig.govern.ad/IPE/PreusCarburants" target="_blank" rel="noopener">web oficial del Govern</a>. Los minutos desde el hotel son aproximados. Se excluyen las de Soldeu, El Tarter y Pas de la Casa por estar lejos.</p>
+    <p class="disclaimer">Entre las cercanas la diferencia suele ser de 1 a 2 céntimos por litro. Fuente: <a href="https://sig.govern.ad/IPE/PreusCarburants" target="_blank" rel="noopener">web oficial del Govern</a>. Se excluyen las de Soldeu, El Tarter y Pas de la Casa por lejanía. Algunas ubicaciones son aproximadas al pueblo.</p>
   </div>
 </section>
 
@@ -607,22 +706,56 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
     <div class="sec-head reveal">
       <p class="mono">Cerca del hotel · Escaldes y Andorra la Vella</p>
       <h2>Dónde <em>aparcar</em></h2>
-      <p>El hotel tiene parking propio. Si está lleno o vas al centro, aquí tienes las alternativas con su precio. Las plazas libres en directo solo las publica el Comú de Andorra la Vella.</p>
+      <p>El hotel tiene parking propio. Si está lleno o vas al centro, aquí tienes las alternativas. Las plazas libres en directo solo las publica el Comú de Andorra la Vella.</p>
     </div>
     <div class="card best">
       <div><p class="mono">Lo más cómodo · en el hotel</p><h3>Parking del Hotel Cosmos</h3>
         <p>Av. de les Escoles, 10 · privado para huéspedes. Precio según guías de 2026: confírmalo en recepción al llegar.</p></div>
       <div class="pr">18 €<small>POR DÍA</small></div>
     </div>
-
-    <h3 class="sub">Plazas libres ahora <span class="mono">Andorra la Vella · comunales</span></h3>
+    <div class="toolbar" style="margin-top:28px"><h3 class="sub" style="margin:0">Plazas libres ahora <span class="mono">Andorra la Vella</span></h3><button type="button" class="loc-btn" data-loc></button></div>
     <div class="live-row"><span><i class="live-dot off" id="liveDot"></i><span id="liveMeta">Cargando plazas…</span></span><button type="button" class="refresh" id="liveRefresh">Actualizar</button></div>
     <ol class="gas" id="parkLive"></ol>
-    <p class="disclaimer" style="margin-top:10px">Tarifa comunal de Andorra la Vella: primera media hora gratis (en superficie), 2,90 €/h, noche de 20 a 8 h por 12,30 € y 24 horas por 28 €. Datos en directo del <a href="https://sit.andorralavella.ad/aparcaments/" target="_blank" rel="noopener">mapa oficial de aparcamientos</a>.</p>
-
+    <p class="disclaimer" style="margin-top:10px">Tarifa comunal de Andorra la Vella: primera media hora gratis (en superficie), 2,90 €/h, noche de 20 a 8 h por 12,30 € y 24 horas por 28 €. Datos del <a href="https://sit.andorralavella.ad/aparcaments/" target="_blank" rel="noopener">mapa oficial de aparcamientos</a>.</p>
     <h3 class="sub">En Escaldes <span class="mono">junto al hotel</span></h3>
     <ol class="gas" id="parkList"></ol>
-    <p class="disclaimer">Escaldes no publica plazas libres en directo. Tarifas de la ordenanza de precios 2026 del Comú y de guías locales: pueden variar unos céntimos. Si vas a dejar el coche toda la noche fuera del hotel, Clot d'Emprivat es lo más barato.</p>
+    <p class="disclaimer">Escaldes no publica plazas libres. Tarifas de la ordenanza 2026 del Comú y de guías locales; pueden variar unos céntimos. Para dejar el coche toda la noche fuera del hotel, Clot d'Emprivat es lo más barato.</p>
+  </div>
+</section>
+
+<section id="salud" data-alt="1023" data-place="Salud">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="mono">Por si pasa algo</p>
+      <h2>Salud y <em>urgencias</em></h2>
+      <p>El hospital del país está en Escaldes, a un paseo del hotel. Para cualquier emergencia, el 112.</p>
+    </div>
+    <div class="card best red">
+      <div><p class="mono">Urgencias 24 h</p><h3>Hospital Nostra Senyora de Meritxell</h3>
+        <p>Av. Fiter i Rossell, 1-13, Escaldes-Engordany · <span id="hospDist"></span></p>
+        <p style="margin-top:8px"><a href="tel:+376871000">+376 871 000</a> · <a href="https://www.google.com/maps/dir/?api=1&destination=42.51147,1.53393" target="_blank" rel="noopener">Cómo llegar ↗</a></p></div>
+      <div class="pr">112<small>EMERGENCIAS</small></div>
+    </div>
+    <div class="toolbar" style="margin-top:28px"><h3 class="sub" style="margin:0">Farmacias cerca</h3><button type="button" class="loc-btn" data-loc></button></div>
+    <ol class="gas" id="pharmList"></ol>
+    <p class="disclaimer">Farmacia de guardia: cambia cada día a las 9:30. Consulta la de hoy en la <a href="https://www.govern.ad/ca/tematiques/salut/assistencia-sanitaria/farmacies-de-guardia" target="_blank" rel="noopener">web del Govern</a> o en <a href="https://www.andorrainfo.com/andorra/farmacias-de-guardia.html" target="_blank" rel="noopener">Andorrainfo</a>; también aparece en la puerta de cualquier farmacia. Ubicaciones de OpenStreetMap.</p>
+  </div>
+</section>
+
+<section id="aduana" data-alt="1023" data-place="Aduana">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="mono">Vuelta a España · franquicias por persona</p>
+      <h2>Lo que puedes <em>pasar</em></h2>
+      <p>Apunta lo que llevas y te dice si te pasas de lo que se puede entrar sin declarar. Los tabacos cuentan juntos (sus porcentajes se suman), igual que los licores y las bebidas de menos de 22°.</p>
+    </div>
+    <div class="cus-top">
+      <label class="switch"><input type="checkbox" id="adult" checked> Tengo 17 años o más</label>
+      <button type="button" class="refresh" id="cusReset">Poner todo a cero</button>
+    </div>
+    <div class="card best" id="cusBest"></div>
+    <div class="cus" id="cus"></div>
+    <p class="disclaimer">Límites de la Agencia Tributaria para viajeros que vienen de Andorra. El de 900 € en otras compras (450 € para menores de 15) sale de guías; confírmalo en la <a href="https://sede.agenciatributaria.gob.es/Sede/viajeros-trabajadores-desplazados-fronterizos/viajeros.html" target="_blank" rel="noopener">web de la AEAT</a>. Guarda los tiques.</p>
   </div>
 </section>
 
@@ -644,12 +777,12 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
       <h2>Lo <em>práctico</em></h2>
     </div>
     <div class="prac">
-      <div class="card pr-card reveal"><p class="mono">Móvil</p><h3>Cuidado con el roaming</h3><p>Andorra no está en la UE. Muchas tarifas españolas no incluyen datos aquí: consulta con tu operador o desactiva los datos al cruzar. Abre esta web una vez con wifi para que carguen las fotos.</p></div>
-      <div class="card pr-card reveal"><p class="mono">Tiempo</p><h3>Otoño de montaña</h3><p>Mañanas frías, cerca de 0 °C en altura, y tardes suaves en el valle. Lleva capas, chubasquero y calzado de montaña. Parte oficial en <a href="https://www.meteo.ad" target="_blank" rel="noopener">meteo.ad</a>.</p></div>
-      <div class="card pr-card reveal"><p class="mono">Aduana</p><h3>Límites a la vuelta</h3><p>Tabaco, alcohol y perfume tienen cupos al entrar en España. Guarda los tiques y revisa los límites antes de comprar.</p></div>
-      <div class="card pr-card reveal"><p class="mono">Caldea</p><h3>Reserva la franja</h3><p>Precios orientativos de 2026: 37 € general, 32 € desde las 17:00. Toalla y albornoz aparte. El sábado por la tarde es lo más lleno. <a href="https://www.caldea.com" target="_blank" rel="noopener">caldea.com</a></p></div>
+      <div class="card pr-card reveal"><p class="mono">Sin conexión</p><h3>Instálala en el móvil</h3><p>Ábrela una vez con wifi y añádela a la pantalla de inicio: en Android, menú ⋮ → Instalar app; en iPhone, Compartir → Añadir a pantalla de inicio. Así funciona aunque no tengas datos.</p></div>
+      <div class="card pr-card reveal"><p class="mono">Móvil</p><h3>Cuidado con el roaming</h3><p>Andorra no está en la UE. Muchas tarifas españolas no incluyen datos aquí: consulta con tu operador o desactiva los datos al cruzar.</p></div>
+      <div class="card pr-card reveal"><p class="mono">Caldea</p><h3>Solo venta online</h3><p>Se reserva por franja horaria en <a href="https://www.caldea.com/es/entradas" target="_blank" rel="noopener">caldea.com</a>; el precio cambia según día y hora. Toalla y albornoz aparte. El sábado por la tarde es lo más lleno.</p></div>
+      <div class="card pr-card reveal"><p class="mono">Tiempo</p><h3>Otoño de montaña</h3><p>Mañanas frías, cerca de 0 °C en altura, y tardes suaves en el valle. Lleva capas, chubasquero y calzado de montaña.</p></div>
       <div class="card pr-card reveal"><p class="mono">Documentos</p><h3>DNI y euros</h3><p>Con el DNI basta. La moneda es el euro y se paga con tarjeta en casi todas partes.</p></div>
-      <div class="card pr-card reveal"><p class="mono">Emergencias</p><h3>112</h3><p>Número único de emergencias. En montaña, di a alguien qué ruta vas a hacer y a qué hora piensas volver.</p></div>
+      <div class="card pr-card reveal"><p class="mono">Montaña</p><h3>Avisa de tu ruta</h3><p>Di a alguien qué ruta vas a hacer y a qué hora piensas volver. Emergencias: 112.</p></div>
     </div>
   </div>
 </section>
@@ -661,11 +794,11 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
     <p>Escapada del 10 al 12 de octubre de 2026. Horarios y precios orientativos: compruébalos el mismo día.</p>
     <ul>
       <li><a href="https://visitandorra.com" target="_blank" rel="noopener">visitandorra.com</a></li>
+      <li><a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a></li>
       <li><a href="https://sig.govern.ad/IPE/PreusCarburants" target="_blank" rel="noopener">Precios carburantes</a></li>
       <li><a href="https://sit.andorralavella.ad/aparcaments/" target="_blank" rel="noopener">Aparcamientos en directo</a></li>
+      <li><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a></li>
       <li><a href="https://www.findmeglutenfree.com/ad/andorra-la-vella" target="_blank" rel="noopener">FindMeGlutenFree</a></li>
-      <li><a href="https://www.celiaquita.com/restaurantes-sin-gluten-andorra/" target="_blank" rel="noopener">Celiaquita</a></li>
-      <li><a href="https://www.ordinoarcalis.com" target="_blank" rel="noopener">Ordino Arcalís</a></li>
     </ul>
     <details><summary>Créditos de las fotos (Wikimedia Commons)</summary><ol id="credits"></ol></details>
   </div>
@@ -673,11 +806,11 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
 
 <nav class="tabbar" id="tabbar" aria-label="Navegación rápida">
   <a href="#plan"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Plan<span class="badge-n" id="planBadge"></span></a>
+  <a href="#mapa"><svg viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Mapa</a>
   <a href="#ciudad"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10l7-5 7 5v10M10 20v-5h4v5"/></svg>Ver</a>
-  <a href="#excursiones"><svg viewBox="0 0 24 24"><path d="M2 20l7-12 4 6 3-4 6 10z"/></svg>Rutas</a>
   <a href="#comer"><svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 2-3 5-3 8h3v10"/></svg>Comer</a>
-  <a href="#gasolina"><svg viewBox="0 0 24 24"><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h14M8 8h4M15 9l3 2v7a1.5 1.5 0 0 0 3 0v-8l-3-3"/></svg>Gasolina</a>
-  <a href="#parking"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>Parking</a>
+  <a href="#gasolina"><svg viewBox="0 0 24 24"><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h14M8 8h4M15 9l3 2v7a1.5 1.5 0 0 0 3 0v-8l-3-3"/></svg>Coche</a>
+  <button type="button" id="moreBtn"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>Más</button>
 </nav>
 
 <aside class="alti" aria-hidden="true">
@@ -690,76 +823,119 @@ footer details ol{margin:8px 0 0;padding-left:20px;font-size:.78rem;display:grid
   <div class="sheet-in">
     <div class="grab" aria-hidden="true"></div>
     <h3 id="sheetTitle">Añadir al plan</h3>
-    <p>¿Qué día? Puedes marcar varios.</p>
+    <p id="sheetSub">¿Qué día? Puedes marcar varios.</p>
     <div class="sheet-days" id="sheetDays">
-      <button type="button" id="sd-0" data-d="0" aria-pressed="false"><b>10</b><small>Sábado</small></button>
-      <button type="button" id="sd-1" data-d="1" aria-pressed="false"><b>11</b><small>Domingo</small></button>
-      <button type="button" id="sd-2" data-d="2" aria-pressed="false"><b>12</b><small>Lunes</small></button>
+      <button type="button" id="sd-0" data-d="0" aria-pressed="false"><b>10</b><small>Sábado</small><em></em></button>
+      <button type="button" id="sd-1" data-d="1" aria-pressed="false"><b>11</b><small>Domingo</small><em></em></button>
+      <button type="button" id="sd-2" data-d="2" aria-pressed="false"><b>12</b><small>Lunes</small><em></em></button>
     </div>
     <button type="button" class="done" id="sheetDone">Listo</button>
   </div>
 </dialog>
+<dialog class="sheet" id="moreSheet" aria-labelledby="moreTitle">
+  <div class="sheet-in">
+    <div class="grab" aria-hidden="true"></div>
+    <h3 id="moreTitle">Todas las secciones</h3>
+    <div class="morelist" id="moreList"></div>
+    <button type="button" class="done" id="moreDone">Cerrar</button>
+  </div>
+</dialog>
 <div class="toast" id="toast" role="status"></div>
 
+<script src="lib.js"></script>
 <script src="gas.js"></script>
 <script src="credits.js"></script>
 <script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 const maps = q => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
 const route = q => 'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(q);
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fmt = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-const img = (id, alt) => `<img src="img/${id}.jpg" alt="${esc(alt)}" loading="lazy" decoding="async" onerror="this.remove()">`;
-const DAYS = ['Sábado 10', 'Domingo 11', 'Lunes 12'];
-const DSHORT = ['Sáb', 'Dom', 'Lun'];
+const imgSrc = id => (typeof IMGS !== 'undefined' ? IMGS[id] || '' : `img/${id}.jpg`);
+const img = (id, alt) => `<img src="${imgSrc(id)}" alt="${esc(alt)}" loading="lazy" decoding="async" onerror="this.remove()">`;
+const telLink = t => t ? `<a href="tel:${t.replace(/\s/g, '')}">${esc(t)}</a>` : '';
+const DAYS = ['Sábado 10', 'Domingo 11', 'Lunes 12'], DSHORT = ['Sáb', 'Dom', 'Lun'], DDOW = [6, 0, 1], DNAME = ['el sábado', 'el domingo', 'el lunes'];
+const TRIP_DATES = ['2026-10-10', '2026-10-11', '2026-10-12'];
+const HOTEL = [42.50978, 1.54091];
+const SHARE_BASE = 'https://franmv4.github.io/escapada-andorra/';
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const vt = fn => (document.startViewTransition && !reduceMotion) ? document.startViewTransition(fn) : fn();
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { return false; } },
+};
 
 /* ---------- DATA ---------- */
 const PLACES = [
-  {id:'p_barri', feat:1, era:'Siglos XI–XVIII', z:'Andorra la Vella', n:'Barri Antic', d:'El casco viejo: callejas empedradas, casas de piedra y pizarra, y plazas pequeñas a dos pasos de las avenidas comerciales.', q:'Barri Antic Andorra la Vella'},
-  {id:'p_vall', era:'1580', z:'Barri Antic', n:'Casa de la Vall', d:'Casa fortificada que fue sede del Consell General durante siglos. Se visita la sala del Consell y el jardín.', q:'Casa de la Vall Andorra la Vella'},
-  {id:'p_esteve', era:'Siglo XII', z:'Barri Antic', n:'Sant Esteve', d:'Iglesia románica en pleno centro, con pinturas murales en el interior.', q:'Església de Sant Esteve Andorra la Vella'},
-  {id:'p_poble', era:'Mirador', z:'Centro', n:'Plaça del Poble', d:'Terraza elevada con vistas al valle y a los picos. Mejor al atardecer.', q:'Plaça del Poble Andorra la Vella'},
-  {id:'p_dali', era:'Dalí', z:'Plaça de la Rotonda', n:'La Noblesse du Temps', d:'El reloj blando de Dalí, en bronce, entre Escaldes y el centro.', q:'La Noblesse du Temps Dalí Andorra la Vella'},
-  {id:'p_caldea', era:'1994', z:'Escaldes', n:'Caldea por fuera', d:'La aguja de cristal que domina Escaldes. Merece la pena verla iluminada de noche.', q:'Caldea Escaldes-Engordany'},
-  {id:'p_coloma', era:'Prerrománico', z:'Santa Coloma', n:'Santa Coloma', d:'Iglesia con un campanario cilíndrico poco común en los Pirineos. A cinco minutos en coche.', q:'Església de Santa Coloma Andorra'},
-  {id:'p_margineda', era:'Medieval', z:'La Margineda', n:'Pont de la Margineda', d:'El puente medieval más grande del país, un arco de piedra sobre el Gran Valira.', q:'Pont de la Margineda'},
+  {id:'p_barri', feat:1, era:'Siglos XI–XVIII', z:'Andorra la Vella', n:'Barri Antic', d:'El casco viejo: callejas empedradas, casas de piedra y pizarra, y plazas pequeñas a dos pasos de las avenidas comerciales.', q:'Barri Antic Andorra la Vella', c:[42.5068,1.5212], oh:'24/7'},
+  {id:'p_vall', era:'1580', z:'Barri Antic', n:'Casa de la Vall', d:'Casa fortificada que fue sede del Consell General durante siglos. Visita guiada a la sala del Consell y al jardín.', q:'Casa de la Vall Andorra la Vella', c:[42.50661,1.52051], oh:'Tu-Sa 10:00-14:00,15:00-18:00; Su,Mo off'},
+  {id:'p_esteve', era:'Siglo XII', z:'Barri Antic', n:'Sant Esteve', d:'Iglesia románica en pleno centro, con pinturas murales en el interior. Abierta según horario de culto.', q:'Església de Sant Esteve Andorra la Vella', c:[42.50718,1.52169], oh:''},
+  {id:'p_poble', era:'Mirador', z:'Centro', n:'Plaça del Poble', d:'Terraza elevada con vistas al valle y a los picos. Mejor al atardecer.', q:'Plaça del Poble Andorra la Vella', c:[42.50665,1.52228], oh:'24/7'},
+  {id:'p_dali', era:'Dalí', z:'Plaça de la Rotonda', n:'La Noblesse du Temps', d:'El reloj blando de Dalí, en bronce, entre Escaldes y el centro.', q:'La Noblesse du Temps Dalí Andorra la Vella', c:[42.50876,1.52948], oh:'24/7'},
+  {id:'p_caldea', era:'1994', z:'Escaldes', n:'Caldea por fuera', d:'La aguja de cristal que domina Escaldes. Merece la pena verla iluminada de noche.', q:'Caldea Escaldes-Engordany', c:[42.51152,1.53759], oh:'24/7'},
+  {id:'p_coloma', era:'Prerrománico', z:'Santa Coloma', n:'Santa Coloma', d:'Iglesia con un campanario cilíndrico poco común en los Pirineos. A cinco minutos en coche.', q:'Església de Santa Coloma Andorra', c:[42.49415,1.49754], oh:''},
+  {id:'p_margineda', era:'Medieval', z:'La Margineda', n:'Pont de la Margineda', d:'El puente medieval más grande del país, un arco de piedra sobre el Gran Valira.', q:'Pont de la Margineda', c:[42.4842,1.49205], oh:'24/7'},
 ];
 const HIKES = [
-  {id:'h_ferro', alt:1400, approx:1, n:'Ruta del Ferro', z:'Llorts → La Cortinada · Ordino', d:'El camino por el que se bajaba el hierro de la mina de Llorts: mina, esculturas de hierro, la Farga Rossell y Sant Martí de la Cortinada.', f:['7,6 km','≈2 h 10','+100 m'], lvl:'easy', t:'15 min en coche', q:'Ruta del Ferro Llorts Ordino'},
-  {id:'h_engo', alt:1622, n:"Estany d'Engolasters", z:'Escaldes · Encamp', d:'El único gran lago al que se llega en coche. Rodéalo o sigue el Camí de les Pardines, llano y entre pinos.', f:['3,4 km (Pardines)','1–1,5 h','Llano'], lvl:'easy', t:'15–20 min en coche', q:"Estany d'Engolasters"},
-  {id:'h_madriu', alt:null, n:'Vall del Madriu', z:'Escaldes · Patrimonio Mundial UNESCO', d:'Valle glaciar sin carreteras, con bordas y caminos de piedra. Se entra desde Escaldes: sube hasta donde te apetezca y vuelve.', f:['Ida y vuelta','A tu ritmo','Subida constante'], lvl:'mid', t:'Sale de Escaldes', q:'Vall del Madriu-Perafita-Claror'},
-  {id:'h_quer', alt:2000, approx:1, n:'Mirador Roc del Quer', z:'Canillo', d:'Pasarela de 20 m, 12 en voladizo y con suelo de cristal, sobre el valle. Llega antes de las 10: luego se llena.', f:['Acceso corto','Entrada ≈5–6 €','Hasta nov.'], lvl:'easy', t:'25 min en coche', q:'Mirador Roc del Quer Canillo'},
-  {id:'h_tristaina', alt:2330, n:'Estanys de Tristaina', z:'Ordino Arcalís', d:'Tres lagos glaciares encadenados en circuito desde el aparcamiento de La Coma.', f:['4,4 km circular','≈3 h','+200–300 m'], lvl:'mid', t:'35 min en coche', warn:'En otoño la carretera de Arcalís ha cerrado al tráfico algunos fines de semana. El lunes es tu mejor opción.', q:'Estanys de Tristaina'},
-  {id:'h_coma', alt:2942, n:'Pic de Comapedrosa', z:'Arinsal · La Massana', d:'El techo de Andorra, por el refugio de Comapedrosa (2.265 m). Solo con experiencia, salida al amanecer y buen parte.', f:['15 km','7–9 h','+1.372 m'], lvl:'hard', t:'20 min en coche', warn:'En octubre puede haber nieve o hielo arriba y anochece pronto. No la hagas solo.', q:'Refugi de Comapedrosa'},
+  {id:'h_ferro', wx:'ferro', alt:1400, approx:1, n:'Ruta del Ferro', z:'Llorts → La Cortinada · Ordino', d:'El camino por el que se bajaba el hierro de la mina de Llorts: mina, esculturas de hierro, la Farga Rossell y Sant Martí de la Cortinada.', f:['7,6 km','≈2 h 10','+100 m'], lvl:'easy', q:'Ruta del Ferro Llorts Ordino', c:[42.59956,1.53243]},
+  {id:'h_engo', wx:'engo', alt:1622, n:"Estany d'Engolasters", z:'Escaldes · Encamp', d:'El único gran lago al que se llega en coche. Rodéalo o sigue el Camí de les Pardines, llano y entre pinos.', f:['3,4 km (Pardines)','1–1,5 h','Llano'], lvl:'easy', q:"Estany d'Engolasters", c:[42.5195,1.5675]},
+  {id:'h_madriu', wx:'madriu', alt:null, n:'Vall del Madriu', z:'Escaldes · Patrimonio Mundial UNESCO', d:'Valle glaciar sin carreteras, con bordas y caminos de piedra. Se entra desde Escaldes: sube hasta donde te apetezca y vuelve.', f:['Ida y vuelta','A tu ritmo','Subida constante'], lvl:'mid', q:'Vall del Madriu-Perafita-Claror', c:[42.50434,1.55096]},
+  {id:'h_quer', wx:'quer', alt:2000, approx:1, n:'Mirador Roc del Quer', z:'Canillo', d:'Pasarela de 20 m, 12 en voladizo y con suelo de cristal, sobre el valle. Llega antes de las 10. Se puede combinar con el Pont Tibetà de Canillo.', f:['Acceso corto','Entrada ≈6 €','Temporada hasta nov.'], lvl:'easy', q:'Mirador Roc del Quer Canillo', c:[42.56892,1.58802], oh:'Mo-Fr 10:00-17:00; Sa,Su 10:00-18:00', link:['Entradas','https://www.ponttibetacanillo.com/en/']},
+  {id:'h_tristaina', wx:'trist', alt:2330, n:'Estanys de Tristaina', z:'Ordino Arcalís', d:'Tres lagos glaciares encadenados en circuito desde el aparcamiento de La Coma.', f:['4,4 km circular','≈3 h','+200–300 m'], lvl:'mid', warn:'En otoño la carretera de Arcalís ha cerrado al tráfico algunos fines de semana. El lunes es tu mejor opción.', q:'Estanys de Tristaina', c:[42.63588,1.48883]},
+  {id:'h_coma', wx:'coma', alt:2942, n:'Pic de Comapedrosa', z:'Arinsal · La Massana', d:'El techo de Andorra, por el refugio de Comapedrosa (2.265 m). Solo con experiencia, salida al amanecer y buen parte.', f:['15 km','7–9 h','+1.372 m'], lvl:'hard', warn:'En octubre puede haber nieve o hielo arriba y anochece pronto. No la hagas solo.', q:'Refugi de Comapedrosa', c:[42.5918,1.44366]},
 ];
 const TODO = [
-  {id:'t_caldea', k:'37 €', n:'Caldea', d:'Lagunas, jacuzzis y saunas con agua termal. Reserva franja online; tarifa de tarde desde las 17:00.', q:'Caldea Escaldes-Engordany'},
-  {id:'t_avmeritxell', k:'Compras', n:'Meritxell y Carlemany', d:'El eje de tiendas que va de Escaldes al centro. Parte es peatonal.', q:'Avinguda Meritxell Andorra la Vella'},
-  {id:'t_thyssen', k:'Arte', n:'Museu Carmen Thyssen', d:'Exposiciones temporales de la colección Thyssen, en Escaldes.', q:'Museu Carmen Thyssen Andorra'},
-  {id:'t_santuari', k:'1976', n:'Santuari de Meritxell', d:'El santuario de la patrona, obra de Ricard Bofill, que en 2026 cumple 50 años.', q:'Santuari de Meritxell'},
-  {id:'t_parc', k:'Río', n:'Parc Central', d:'El mayor parque de la ciudad, junto al Valira. Para estirar las piernas.', q:'Parc Central Andorra la Vella'},
-  {id:'t_caselles', k:'s. XI', n:'Sant Joan de Caselles', d:'Románico a la salida de Canillo, con una Majestad de estuco. Entrada libre.', q:'Sant Joan de Caselles Canillo'},
+  {id:'t_caldea', k:'Termal', n:'Caldea', d:'Lagunas, jacuzzis y saunas con agua termal. Solo venta online, por franja horaria.', q:'Caldea Escaldes-Engordany', c:[42.51152,1.53759], oh:'Mo-Th,Su 10:00-22:00; Fr,Sa 10:00-24:00', link:['Reservar','https://www.caldea.com/es/entradas']},
+  {id:'t_avmeritxell', k:'Compras', n:'Meritxell y Carlemany', d:'El eje de tiendas que va de Escaldes al centro. Parte es peatonal y muchas tiendas abren el domingo.', q:'Avinguda Meritxell Andorra la Vella', c:[42.50835,1.52672], oh:''},
+  {id:'t_thyssen', k:'Arte', n:'Museu Carmen Thyssen', d:'Exposiciones temporales de la colección Thyssen, en Escaldes. Cierra los lunes.', q:'Museu Carmen Thyssen Andorra', c:[42.50876,1.54201], oh:'Tu-Fr 10:00-18:00; Sa 10:00-19:00; Su 10:00-14:00; Mo off', link:['Web','https://museucarmenthyssenandorra.ad/en/visit/']},
+  {id:'t_santuari', k:'1976', n:'Santuari de Meritxell', d:'El santuario de la patrona, obra de Ricard Bofill, que en 2026 cumple 50 años.', q:'Santuari de Meritxell', c:[42.55463,1.59088], oh:''},
+  {id:'t_parc', k:'Río', n:'Parc Central', d:'El mayor parque de la ciudad, junto al Valira. Para estirar las piernas.', q:'Parc Central Andorra la Vella', c:[42.50599,1.52594], oh:'24/7'},
+  {id:'t_caselles', k:'s. XI', n:'Sant Joan de Caselles', d:'Románico a la salida de Canillo, con una Majestad de estuco. Entrada libre.', q:'Sant Joan de Caselles Canillo', c:[42.57083,1.60779], oh:''},
 ];
 const RESTS = [
-  {id:'r_0gluten', t:'100', n:'0% Gluten', z:'Escaldes', k:'Obrador y cafetería', d:'Todo sin gluten: croissants, dónuts, bocadillos, pizzas, wraps y tortitas. Asociado a la Associació de Celíacs.', a:'Av. Esteve Albert, 4'},
-  {id:'r_riverside', t:'100', n:'Riverside', z:'Andorra la Vella', k:'Café de especialidad y brunch', d:'Reportado como 100 % sin gluten: tacos, hamburguesas veggie, patatas, tarta de queso y cerveza.', a:'Av. Dr. Mitjavila, 36'},
-  {id:'r_verticalo', t:'100', n:'Vertical Ordino', z:'Ordino', k:'Crepes, poke y ensaladas', d:'Reportado como 100 % sin gluten: crepes, poke, tostadas de aguacate y postres.', a:'Carrer Major, Ordino'},
-  {id:'r_vertical', t:'100', n:'Vertical', z:'Escaldes', k:'Crepes y cocina casera', d:'Reportado como 100 % sin gluten: crepes, hamburguesas, tacos, curry y tartas.', a:'Escaldes-Engordany', q:'Vertical sin gluten Escaldes-Engordany'},
-  {id:'r_canmanel', t:'menu', n:'Can Manel', z:'Andorra la Vella', k:'Cocina de montaña', d:'Ensaladas, carnes, pescados, setas y caracoles a la llauna sin gluten. Asociado a la Associació de Celíacs.', a:'Pl. Príncep Benlloch, 5'},
-  {id:'r_cabana', t:'menu', n:'La Cabana', z:'Canillo', k:'Cocina familiar · Hotel Roc Meller', d:'Según reseñas, cocina y almacén sin gluten separados: pasta, pizza, ensaladas y postres.', a:'Urb. la Ribagrossa, 13, Canillo'},
-  {id:'r_platin', t:'menu', n:"Plat'In", z:'Andorra la Vella', k:'Restaurante', d:'Carta sin gluten y alérgenos bien señalados.', a:'C. Bonaventura Riberaygua, 8'},
-  {id:'r_viena', t:'menu', n:'Viena', z:'Andorra la Vella', k:'Bocadillos', d:'Carta para celíacos con bocadillos fríos y calientes. Otro local en Av. Carlemany, 58.', a:'Av. de Salou, 82-84'},
-  {id:'r_tagliatella', t:'menu', n:'La Tagliatella', z:'Escaldes', k:'Italiano', d:'Carta sin gluten aparte: pasta, pizza, pan y postres.', a:'Av. Carlemany, Escaldes'},
-  {id:'r_angelo', t:'menu', n:'Pizzeria Angelo', z:'Escaldes', k:'Pizzería', d:'Pizza, pasta, helado y tartas sin gluten.', a:'C. de la Unió, Escaldes'},
-  {id:'r_goiko', t:'menu', n:'Goiko', z:'Andorra la Vella', k:'Hamburguesas', d:'Carta sin gluten. Te explican qué se puede adaptar y dónde hay riesgo.', a:'C. de la Borda'},
-  {id:'r_xtreme', t:'menu', n:'Xtreme Pizza', z:'Andorra la Vella', k:'Pizzería', d:'Base de pizza sin gluten, con suplemento. Solo la pizza es apta.', a:'Pl. Rebés, 1'},
-  {id:'r_terreta', t:'care', n:'La Terreta', z:'Andorra la Vella', k:'Cocina local', d:'Sin carta específica, pero el personal conoce la celiaquía y cuida la contaminación cruzada.', a:"C. Pere d'Urg, 17"},
-  {id:'r_monkeys', t:'care', n:'Monkeys Burgers', z:'Escaldes', k:'Hamburguesas', d:'Pan sin gluten y retiran ingredientes con gluten, como la cebolla crujiente.', a:'C. Isabelle Sandy, 3'},
-  {id:'r_jaleo', t:'care', n:'Jaleo', z:'Escaldes', k:'Restaurante', d:'Sin carta sin gluten, pero los camareros cuidan que las opciones sean seguras.', a:'Escaldes-Engordany'},
+  {id:'r_0gluten', t:'100', n:'0% Gluten', z:'Escaldes', k:'Obrador y cafetería', d:'Todo sin gluten: croissants, dónuts, bocadillos, pizzas, wraps y tortitas. Asociado a la Associació de Celíacs.', a:'Av. Esteve Albert, 4', c:[42.51068,1.53476], tel:'+376 625 700', oh:'Mo-Sa 08:00-19:00; Su 09:00-15:00'},
+  {id:'r_riverside', t:'100', n:'Riverside', z:'Andorra la Vella', k:'Café de especialidad y brunch', d:'Reportado como 100 % sin gluten: tacos, hamburguesas veggie, patatas, tarta de queso y cerveza.', a:'Av. Dr. Mitjavila, 36', c:[42.5106,1.5335], tel:'+376 360 509', oh:'Mo-Su 09:00-17:00'},
+  {id:'r_verticalo', t:'100', n:'Vertical Ordino', z:'Ordino', k:'Crepes, poke y ensaladas', d:'Reportado como 100 % sin gluten, con crepes de trigo sarraceno. Cierra lunes y martes según algunas fuentes.', a:'Carrer Major, 22, Ordino', c:[42.55666,1.53369], tel:'+376 817 989', oh:'We,Th,Su 12:00-19:30; Fr,Sa 12:00-23:30; Mo,Tu off'},
+  {id:'r_vertical', t:'100', n:'Vertical', z:'Escaldes', k:'Crepes y cocina casera', d:'Reportado como 100 % sin gluten: crepes, hamburguesas, tacos, curry y tartas.', a:'C. Sant Antoni, 5, Escaldes', c:[42.5089,1.5385], tel:'+376 824 075', oh:'', q:'Vertical sin gluten Escaldes-Engordany'},
+  {id:'r_canmanel', t:'menu', n:'Can Manel', z:'Andorra la Vella', k:'Cocina de montaña', d:'Ensaladas, carnes, pescados, setas y caracoles a la llauna sin gluten. Asociado a la Associació de Celíacs. Cierra martes y miércoles.', a:'Pl. Príncep Benlloch, 5', c:[42.5072,1.5208], tel:'+376 822 397', oh:'Mo,Th-Su 13:00-15:30,20:30-22:30; Tu,We off', res:['Reservar por WhatsApp','https://wa.me/376822397']},
+  {id:'r_cabana', t:'menu', n:'La Cabana', z:'Canillo', k:'Hotel Roc Meler · cocina de mercado', d:'Menú especial para celíacos; según reseñas, cocina y almacén sin gluten separados. Llama antes: horario de hotel.', a:'Urb. la Ribagrossa, 13, Canillo', c:[42.56367,1.60106], tel:'+376 830 714', oh:'Mo-Su 19:30-22:30'},
+  {id:'r_platin', t:'menu', n:"Plat'In", z:'Andorra la Vella', k:'Restaurante', d:'Carta sin gluten y alérgenos bien señalados.', a:'C. Bonaventura Riberaygua, 8', c:[42.50735,1.53179], tel:'', oh:'Mo-Fr 08:30-20:00; Sa,Su 08:00-15:00'},
+  {id:'r_viena', t:'menu', n:'Viena', z:'Santa Coloma', k:'Bocadillos', d:'Carta para celíacos con bocadillos fríos y calientes. Abre todos los días hasta medianoche.', a:'Av. de Salou, 82-84', c:[42.4956,1.50508], tel:'+376 722 549', oh:'Mo-Th,Su 07:30-24:00; Fr,Sa 07:30-00:30'},
+  {id:'r_tagliatella', t:'menu', n:'La Tagliatella', z:'Escaldes', k:'Italiano', d:'Carta sin gluten aparte: pasta, pizza, pan y postres.', a:'Av. Carlemany, 91', c:[42.50861,1.53726], tel:'+376 866 177', oh:''},
+  {id:'r_angelo', t:'menu', n:'Pizzeria Angelo', z:'Escaldes', k:'Pizzería', d:'Pizza, pasta, helado y tartas sin gluten.', a:'C. de la Unió, Escaldes', c:[42.50789,1.53422], tel:'', oh:''},
+  {id:'r_goiko', t:'menu', n:'Goiko', z:'Andorra la Vella', k:'Hamburguesas', d:'Carta sin gluten. Te explican qué se puede adaptar y dónde hay riesgo.', a:'C. de la Borda, 5', c:[42.5079,1.53265], tel:'+376 820 775', oh:'Mo-We 12:00-23:30; Th-Su 12:00-24:00', res:['Reservar','https://www.goiko.com/es/en/restaurante/andorra/']},
+  {id:'r_xtreme', t:'menu', n:'Xtreme Pizza', z:'Andorra la Vella', k:'Pizzería', d:'Base de pizza sin gluten, con suplemento. Solo la pizza es apta. Horario de 2022: confírmalo.', a:'Pl. Rebés, 1', c:[42.5075,1.5233], tel:'+376 670 361', oh:'Tu-Th 18:00-22:30; Fr 18:00-23:00; Sa,Su 12:30-16:00,19:00-23:00; Mo off'},
+  {id:'r_terreta', t:'care', n:'La Terreta', z:'Andorra la Vella', k:'Cocina local', d:'Sin carta específica, pero el personal conoce la celiaquía y cuida la contaminación cruzada.', a:"C. Pere d'Urg, 17", c:[42.50643,1.52955], tel:'+376 800 311', oh:'Mo,Su 13:00-16:00; Tu-Sa 13:00-16:00,20:30-23:00'},
+  {id:'r_monkeys', t:'care', n:'Monkeys Burgers', z:'Escaldes', k:'Hamburguesas', d:'Pan sin gluten y retiran ingredientes con gluten, como la cebolla crujiente.', a:'Av. Carlemany, 8', c:[42.50865,1.53908], tel:'', oh:'Mo-Fr 16:00-01:00; Sa,Su 12:00-01:00'},
+  {id:'r_jaleo', t:'care', n:'Jaleo', z:'Escaldes', k:'Restaurante', d:'Sin carta sin gluten, pero los camareros cuidan que las opciones sean seguras.', a:'Parc de la Mola, 9', c:[42.511,1.53915], tel:'+376 861 099', oh:'Mo-Sa 08:00-24:00; Su 09:00-16:00'},
 ];
 const BADGE = {'100':['b-100','100% sin gluten'], menu:['b-menu','Carta sin gluten'], care:['b-care','Atentos']};
+const PARKS = [
+  {n:'Aparcament comunal subterráneo', t:'Comunal cubierto', a:'A 150 m del hotel', c:[42.50856,1.54179], p:'≈2,68 €/h', p2:'1ª media hora gratis', day:'Tarifa comunal de Escaldes'},
+  {n:'Empark Escaldes Centre', t:'Subterráneo · Telpark', a:'C. de la Constitució, 8', c:[42.51078,1.53944], p:'2,83 €/h', p2:'1,50 €/h con la app Telpark', day:'28,50 €/día · 20,60 € con la app · se puede reservar'},
+  {n:'Aparcament de Caldea', t:'Comunal cubierto', a:'Debajo de Caldea, con ascensor', c:[42.51152,1.53759], p:'≈2,80 €/h', p2:'1ª media hora gratis', day:'Máx. 28 €/día · noche ≈15,50 €'},
+  {n:'Prat del Roure', t:'Comunal subterráneo', a:'Junto a Caldea', c:[42.51086,1.53556], p:'≈2,68 €/h', p2:'1ª media hora gratis', day:'Noche (20–8 h) 14,83 €'},
+  {n:'Prat Gran', t:'Comunal cubierto', a:'Centro de Escaldes', p:'≈2,68 €/h', p2:'1ª media hora gratis', day:'Noche (20–8 h) 14,83 € · buena relación calidad-precio'},
+  {n:"Clot d'Emprivat", t:'Comunal al aire libre', a:'A 5 min de Caldea', p:'2,48 €/h', p2:'1ª media hora gratis', day:'Noche (20–8 h) 4,31 € · el más barato de noche'},
+  {n:"Aparcament d'Engolasters", t:'Al aire libre', a:'Junto al lago', c:[42.51763,1.56822], p:'De pago', p2:'para la excursión', day:'Útil para el lago y el Camí de les Pardines'},
+  {n:'Zona azul', t:'En la calle', a:'Calles del centro', p:'1,40 €/h', p2:'L–S 9:30–13 y 15–20 h', day:'Gratis domingos, festivos, de 13 a 15 h y de 20 a 9:30 h', street:1},
+];
+const PHARM = [
+  {n:'Farmàcia de les Escoles', c:[42.50973,1.54062]}, {n:'Farmàcia Guerrero', c:[42.50862,1.53978]}, {n:'Farmàcia Carlemany', c:[42.50866,1.53766]},
+  {n:'Farmàcia Europa', c:[42.50854,1.53612]}, {n:'Farmàcia Pirineus', c:[42.50882,1.53567]}, {n:'Farmàcia Galeno', c:[42.50878,1.53427]},
+  {n:'Farmàcia Pasteur', c:[42.51269,1.53511]}, {n:'Farmàcia Rocamora', c:[42.50825,1.53396]}, {n:'Farmàcia Roser Miró', c:[42.50733,1.5328]},
+  {n:'Farmàcia Edelweiss', c:[42.50635,1.53008]}, {n:'Farmàcia Mitjavila', c:[42.50774,1.52204], tel:'+376 820 224'}, {n:'Farmàcia Meritxell', c:[42.50764,1.52082], tel:'+376 804 555'},
+];
+const WX = [
+  {k:'esc', n:'Escaldes (hotel)', c:[42.5098,1.5409], el:1050},
+  {k:'ferro', n:'Ruta del Ferro', c:[42.5996,1.5324], el:1410},
+  {k:'engo', n:"Estany d'Engolasters", c:[42.5195,1.5675], el:1620},
+  {k:'madriu', n:'Vall del Madriu', c:[42.499,1.565], el:1750},
+  {k:'quer', n:'Roc del Quer', c:[42.5689,1.588], el:1950},
+  {k:'trist', n:'Estanys de Tristaina', c:[42.6359,1.4888], el:2300},
+  {k:'coma', n:'Comapedrosa', c:[42.5918,1.4437], el:2900},
+];
 const PHRASES = [
   ['Sóc celíac. No puc menjar gluten.', 'Soy celíaco. No puedo comer gluten.'],
   ['Quins plats són sense gluten?', '¿Qué platos son sin gluten?'],
@@ -771,117 +947,179 @@ const PHRASES = [
 
 /* everything that can go in the plan */
 const CAT = {};
-PLACES.forEach(x => CAT[x.id] = {n:x.n, s:'Qué ver · ' + x.z, q:x.q});
-HIKES.forEach(x => CAT[x.id] = {n:x.n, s:'Excursión · ' + x.t, q:x.q});
-TODO.forEach(x => CAT[x.id] = {n:x.n, s:'Plan · ' + x.k, q:x.q});
-RESTS.forEach(x => CAT[x.id] = {n:x.n, s:BADGE[x.t][1] + ' · ' + x.z, q:x.q || x.n + ' ' + x.a + ' Andorra'});
+PLACES.forEach(x => CAT[x.id] = {n:x.n, s:'Qué ver · ' + x.z, q:x.q, c:x.c, oh:x.oh, cat:'ver'});
+HIKES.forEach(x => CAT[x.id] = {n:x.n, s:'Excursión · ' + x.z, q:x.q, c:x.c, oh:x.oh || '', cat:'rutas'});
+TODO.forEach(x => CAT[x.id] = {n:x.n, s:'Plan · ' + x.k, q:x.q, c:x.c, oh:x.oh, cat:'hacer'});
+RESTS.forEach(x => CAT[x.id] = {n:x.n, s:BADGE[x.t][1] + ' · ' + x.z, q:x.q || x.n + ' ' + x.a + ' Andorra', c:x.c, oh:x.oh, cat:'comer', tel:x.tel});
+const OH = {}; for (const id in CAT) OH[id] = LIB.parseOH(CAT[id].oh);
 
-/* ---------- PLAN STATE (localStorage: per device) ---------- */
-const KEY = 'andorra-plan-v1';
-let plan = [[], [], []], curDay = 0, hadSaved = false;
-try {
-  const s = JSON.parse(localStorage.getItem(KEY) || 'null');
-  if (s && Array.isArray(s.days)) { plan = [0, 1, 2].map(i => (s.days[i] || []).filter(id => CAT[id])); hadSaved = true; }
+/* ---------- LOCATION (hotel or me) ---------- */
+let me = null, useMe = false, watchId = null;
+const origin = () => useMe && me ? me : HOTEL;
+const away = c => c ? LIB.travel(LIB.dist(origin(), c)) : null;
+const PIN = '<svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+function syncLocButtons(){
+  $$('[data-loc]').forEach(b => { b.classList.toggle('on', useMe && !!me); b.innerHTML = PIN + (useMe && me ? 'Desde tu ubicación' : 'Desde el hotel'); b.setAttribute('aria-pressed', useMe && !!me); });
+}
+function setLocation(on){
+  if (!on){ useMe = false; if (watchId != null) navigator.geolocation.clearWatch(watchId); watchId = null; store.set('andorra-loc', false); return refreshDistances(); }
+  if (!navigator.geolocation) return toast('Este navegador no da la ubicación');
+  toast('Buscando tu ubicación…');
+  watchId = navigator.geolocation.watchPosition(p => {
+    const first = !me; me = [p.coords.latitude, p.coords.longitude]; useMe = true; store.set('andorra-loc', true);
+    refreshDistances(); if (first) toast('Ordenado desde tu ubicación');
+  }, () => { useMe = false; me = null; store.set('andorra-loc', false); syncLocButtons(); toast('No se pudo obtener la ubicación'); }, {enableHighAccuracy: false, maximumAge: 60000, timeout: 15000});
+}
+document.addEventListener('click', e => { if (e.target.closest('[data-loc]')) setLocation(!(useMe && me)); });
+
+/* ---------- PLAN STATE ---------- */
+const KEY = 'andorra-plan-v2';
+let plan = [[], [], []], curDay = 0, hadSaved = false, openEdit = null;
+(() => {
+  const s = store.get(KEY, null) || store.get('andorra-plan-v1', null);
+  if (s && Array.isArray(s.days)){
+    plan = [0, 1, 2].map(i => (s.days[i] || []).map(x => typeof x === 'string' ? {id: x, t: '', n: '', done: false} : x).filter(x => CAT[x.id]));
+    hadSaved = true;
+  }
   if (s && [0, 1, 2].includes(s.cur)) curDay = s.cur;
-} catch {}
+})();
 function save(){
-  let ok = true;
-  try { localStorage.setItem(KEY, JSON.stringify({days: plan, cur: curDay})); } catch { ok = false; }
+  const ok = store.set(KEY, {days: plan, cur: curDay});
   $('#savedNote').textContent = ok ? 'Guardado en este navegador.' : 'Este navegador no deja guardar: el plan se perderá al cerrar.';
 }
-const daysOf = id => [0, 1, 2].filter(d => plan[d].includes(id));
+const daysOf = id => [0, 1, 2].filter(d => plan[d].some(x => x.id === id));
+const tmin = t => t ? +t.slice(0, 2) * 60 + +t.slice(3, 5) : null;
+function warnFor(id, d, t){
+  const w = OH[id]; if (!w) return '';
+  const dt = LIB.dayText(w, DDOW[d]);
+  if (dt === '') return `<span class="warn">Cerrado ${DNAME[d]}</span>`;
+  if (t && LIB.openAt(w, DDOW[d], tmin(t)) === false) return `<span class="warn soft">A esa hora está cerrado · ${esc(dt)}</span>`;
+  return '';
+}
 
-/* ---------- CATALOG ---------- */
+/* ---------- CATALOG RENDER ---------- */
 const addBtn = id => `<button type="button" class="add" data-add="${id}">Al plan</button>`;
+const dtag = c => `<span class="tag dtag" data-dst="${c ? c.join(',') : ''}"></span>`;
+const hrsLine = id => `<p class="hrs" data-hrs="${id}"></p>`;
 $('#places').innerHTML = PLACES.map(p => `
   <article class="card place spot lift${p.feat ? ' feat' : ''}">
-    <div class="ph">${img(p.id, p.n)}<span class="tag">${p.era}</span></div>
-    <div class="body"><p class="mono" style="color:var(--muted)">${p.z}</p><h3>${p.n}</h3><p>${p.d}</p>
-      <div class="row-end">${addBtn(p.id)}<a class="go" href="${maps(p.q)}" target="_blank" rel="noopener">Maps</a></div></div>
+    <div class="ph">${img(p.id, p.n)}<span class="tag">${p.era}</span>${dtag(p.c)}</div>
+    <div class="body"><p class="mono" style="color:var(--muted)">${p.z}</p><h3>${p.n}</h3><p>${p.d}</p>${hrsLine(p.id)}
+      <div class="row-end">${addBtn(p.id)}<a class="go" href="${route(p.c.join(','))}" target="_blank" rel="noopener">Ir</a></div></div>
   </article>`).join('');
-
 $('#hikes').innerHTML = HIKES.map(h => {
   const lvl = {easy:['lvl-easy','Fácil'], mid:['lvl-mid','Moderada'], hard:['lvl-hard','Exigente']}[h.lvl];
   const altTxt = h.alt ? (h.approx ? '≈' : '') + fmt(h.alt) : '';
   return `<article class="card hike spot lift reveal" ${h.alt ? `data-alt="${h.alt}"` : ''} data-place="${esc(h.n)}">
-    <div class="ph">${img(h.id, h.n)}${h.alt ? `<span class="alt num">${altTxt}<small>m</small></span>` : '<span class="tag">UNESCO</span>'}</div>
-    <div class="info"><p class="mono" style="color:var(--larch)">${h.z} · ${h.t}</p><h3>${h.n}</h3><p class="d">${h.d}</p>
+    <div class="ph">${img(h.id, h.n)}${h.alt ? `<span class="alt num">${altTxt}<small>m</small></span>` : '<span class="tag">UNESCO</span>'}${dtag(h.c)}</div>
+    <div class="info"><p class="mono" style="color:var(--larch)">${h.z}</p><h3>${h.n}</h3><p class="d">${h.d}</p>
       <div class="facts"><span class="${lvl[0]}">${lvl[1]}</span>${h.f.map(x => `<span>${x}</span>`).join('')}</div>
       ${h.warn ? `<p class="note"><span aria-hidden="true">▲</span>${h.warn}</p>` : ''}
-      <div class="row-end" style="justify-content:flex-start;gap:14px">${addBtn(h.id)}<a class="go" href="${maps(h.q)}" target="_blank" rel="noopener">Maps</a></div>
+      ${h.oh ? hrsLine(h.id) : ''}
+      <div class="wxrow" data-wxrow="${h.wx}"></div>
+      <div class="row-end">${addBtn(h.id)}<a class="go" href="${route(h.c.join(','))}" target="_blank" rel="noopener">Ir</a>${h.link ? `<a class="go strong" href="${h.link[1]}" target="_blank" rel="noopener">${h.link[0]}</a>` : ''}</div>
     </div>
     <div class="gauge" style="--h:${h.alt ? (h.alt - 1000) / 2000 : 0}" role="img" aria-label="${h.alt ? 'Altitud ' + altTxt + ' metros' : 'Sin dato de altitud'}">${h.alt ? '<i></i><b></b>' : ''}</div>
   </article>`;
 }).join('');
-
 $('#todo').innerHTML = TODO.map(t => `
   <article class="card do spot lift">
-    <div class="ph">${img(t.id, t.n)}</div>
-    <div class="body"><span class="k">${t.k}</span><h3>${t.n}</h3><p>${t.d}</p>
-      <div class="row-end">${addBtn(t.id)}<a class="go" href="${maps(t.q)}" target="_blank" rel="noopener">Maps</a></div></div>
+    <div class="ph">${img(t.id, t.n)}${dtag(t.c)}</div>
+    <div class="body"><span class="k">${t.k}</span><h3>${t.n}</h3><p>${t.d}</p>${hrsLine(t.id)}
+      <div class="row-end">${addBtn(t.id)}<a class="go" href="${route(t.c.join(','))}" target="_blank" rel="noopener">Ir</a>${t.link ? `<a class="go strong" href="${t.link[1]}" target="_blank" rel="noopener">${t.link[0]}</a>` : ''}</div></div>
   </article>`).join('');
 
-let rfilter = 'all';
+function refreshHours(){
+  $$('[data-hrs]').forEach(el => { const st = LIB.status(OH[el.dataset.hrs], new Date()); el.className = 'hrs ' + st.state; el.innerHTML = `<i></i>${esc(st.text)}`; });
+}
+function weekHTML(id){
+  const w = OH[id]; if (!w) return '';
+  return `<dl class="week">${[0, 1, 2].map(d => { const t = LIB.dayText(w, DDOW[d]); return `<dt>${DSHORT[d]}</dt><dd class="${t === '' ? 'x' : ''}">${t === null ? 'sin dato' : t === '' ? 'Cerrado' : t}</dd>`; }).join('')}</dl>`;
+}
+
+let rfilter = 'all', rsort = 'rec', ropen = false;
 function renderRests(){
-  $('#rests').innerHTML = RESTS.filter(r => rfilter === 'all' || r.t === rfilter).map(r => `
+  const now = new Date();
+  let list = RESTS.filter(r => (rfilter === 'all' || r.t === rfilter) && (!ropen || LIB.status(OH[r.id], now).state === 'open'));
+  if (rsort === 'near') list = [...list].sort((a, b) => LIB.dist(origin(), a.c) - LIB.dist(origin(), b.c));
+  $('#rests').innerHTML = list.length ? list.map(r => `
     <article class="card rest spot lift" style="view-transition-name:${r.id}">
       <div class="ph">${img(r.id, 'Plato ilustrativo: ' + r.k)}<span class="tag illus">Ilustrativa</span></div>
       <div class="body">
         <span class="badge ${BADGE[r.t][0]}">${BADGE[r.t][1]}</span>
         <h3>${esc(r.n)}</h3>
-        <p class="kind">${r.k} · ${r.z}</p>
+        <p class="kind">${r.k} · ${away(r.c).text}</p>
         <p class="d">${esc(r.d)}</p>
-        <p class="addr">${esc(r.a)}</p>
-        <div class="row-end">${addBtn(r.id)}<a class="go" href="${maps(CAT[r.id].q)}" target="_blank" rel="noopener">Maps</a></div>
+        ${hrsLine(r.id)}
+        ${weekHTML(r.id)}
+        <p class="addr">${esc(r.a)}${r.tel ? ` · <span class="tel">${telLink(r.tel)}</span>` : ''}</p>
+        <div class="row-end">${addBtn(r.id)}<a class="go" href="${route(r.c.join(','))}" target="_blank" rel="noopener">Ir</a>${r.res ? `<a class="go strong" href="${r.res[1]}" target="_blank" rel="noopener">${r.res[0]}</a>` : ''}</div>
       </div>
-    </article>`).join('');
-  syncAddButtons();
+    </article>`).join('') : '<p class="emptylist">Ninguno abierto ahora con este filtro.</p>';
+  syncAddButtons(); refreshHours();
 }
 const RF = [['all','Todos'],['100','100% sin gluten'],['menu','Carta sin gluten'],['care','Atentos']];
-$('#filters').innerHTML = RF.map(([k, l]) =>
-  `<button type="button" id="rf-${k}" data-f="${k}" aria-pressed="${k === 'all'}">${l}<span>${k === 'all' ? RESTS.length : RESTS.filter(r => r.t === k).length}</span></button>`).join('');
+$('#filters').innerHTML = RF.map(([k, l]) => `<button type="button" id="rf-${k}" data-f="${k}" aria-pressed="${k === 'all'}">${l}<span>${k === 'all' ? RESTS.length : RESTS.filter(r => r.t === k).length}</span></button>`).join('');
 $('#filters').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || b.dataset.f === rfilter) return;
-  rfilter = b.dataset.f;
-  document.querySelectorAll('#filters button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  rfilter = b.dataset.f; $$('#filters button').forEach(x => x.setAttribute('aria-pressed', x === b)); vt(renderRests);
+});
+$('#rSort').innerHTML = `<button type="button" id="rs-rec" data-s="rec" aria-pressed="true">Recomendados</button><button type="button" id="rs-near" data-s="near" aria-pressed="false">Más cerca</button><button type="button" id="rs-open" data-o="1" aria-pressed="false">Abierto ahora</button>`;
+$('#rSort').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.o){ ropen = !ropen; b.setAttribute('aria-pressed', ropen); }
+  else { rsort = b.dataset.s; $$('#rSort [data-s]').forEach(x => x.setAttribute('aria-pressed', x === b)); }
   vt(renderRests);
 });
 
-/* ---------- PLANNER ---------- */
+/* ---------- PLANNER UI ---------- */
 const ICON = {
-  up:'<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>',
-  down:'<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
-  x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  up:'<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>', down:'<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>',
+  x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>', chk:'<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',
 };
 let clearArmed = false;
 function renderPlan(){
   const list = plan[curDay];
-  document.querySelectorAll('#daytabs button').forEach(b => {
-    const d = +b.dataset.d;
-    b.setAttribute('aria-selected', d === curDay);
-    b.querySelector('.cnt').textContent = plan[d].length || '';
-  });
+  $$('#daytabs button').forEach(b => { const d = +b.dataset.d; b.setAttribute('aria-selected', d === curDay); b.querySelector('.cnt').textContent = plan[d].length || ''; });
   $('#daytabs .pill').style.setProperty('--d', curDay);
-  $('#dayview').innerHTML = list.length ? `<ol class="plist">${list.map((id, i) => `
-    <li class="pitem" style="view-transition-name:pi-${id}">
-      <div class="th">${img(id, '')}</div>
-      <div style="min-width:0"><b>${esc(CAT[id].n)}</b><small>${esc(CAT[id].s)} · <a href="${maps(CAT[id].q)}" target="_blank" rel="noopener">Maps ↗</a></small></div>
-      <div class="acts">
-        <button type="button" class="ib" data-mv="-1" data-i="${i}" aria-label="Subir ${esc(CAT[id].n)}" ${i === 0 ? 'disabled' : ''}>${ICON.up}</button>
-        <button type="button" class="ib" data-mv="1" data-i="${i}" aria-label="Bajar ${esc(CAT[id].n)}" ${i === list.length - 1 ? 'disabled' : ''}>${ICON.down}</button>
-        <button type="button" class="ib" data-rm="${i}" aria-label="Quitar ${esc(CAT[id].n)}">${ICON.x}</button>
-      </div>
-    </li>`).join('')}</ol>` : `
+  let travelMin = 0, rows = [];
+  list.forEach((x, i) => {
+    const c = CAT[x.id];
+    if (i > 0){
+      const p = CAT[list[i - 1].id];
+      if (p.c && c.c){ const tr = LIB.travel(LIB.dist(p.c, c.c)); travelMin += tr.min; rows.push(`<li class="tx">${tr.text}</li>`); } else rows.push('<li class="gap"></li>');
+    }
+    const editing = openEdit === i;
+    rows.push(`<li class="pitem${x.done ? ' done' : ''}" data-i="${i}" style="view-transition-name:pi-${x.id}">
+      <button type="button" class="chk" data-done="${i}" aria-label="${x.done ? 'Marcar como pendiente' : 'Marcar como hecho'}: ${esc(c.n)}" aria-pressed="${x.done}">${ICON.chk}</button>
+      <div class="th">${img(x.id, '')}</div>
+      <div style="min-width:0">${x.t ? `<span class="ptime">${esc(x.t)}</span>` : ''}<b>${esc(c.n)}</b><small>${esc(c.s)}</small>
+        ${warnFor(x.id, curDay, x.t)}${x.n && !editing ? `<p class="pnote">${esc(x.n)}</p>` : ''}</div>
+      ${editing ? `<div class="ped">
+        <input type="time" id="pt-${i}" value="${esc(x.t)}" aria-label="Hora">
+        <textarea id="pn-${i}" rows="2" placeholder="Notas: reserva, pedir sin gluten…" aria-label="Notas">${esc(x.n)}</textarea>
+        <div class="acts">
+          <button type="button" class="ib" data-mv="-1" data-i="${i}" aria-label="Subir" ${i === 0 ? 'disabled' : ''}>${ICON.up}</button>
+          <button type="button" class="ib" data-mv="1" data-i="${i}" aria-label="Bajar" ${i === list.length - 1 ? 'disabled' : ''}>${ICON.down}</button>
+          <a class="ib" href="${route(c.c ? c.c.join(',') : c.q)}" target="_blank" rel="noopener">Ir ↗</a>
+          ${c.tel ? `<a class="ib" href="tel:${c.tel.replace(/\s/g, '')}">Llamar</a>` : ''}
+          <button type="button" class="ib danger" data-rm="${i}">${ICON.x} Quitar</button>
+        </div></div>` : ''}
+    </li>`);
+  });
+  $('#dayview').innerHTML = list.length ? `<ol class="plist">${rows.join('')}</ol>` : `
     <div class="empty"><p class="mono">${DAYS[curDay]} · vacío</p>
       <p>Todavía no hay nada para este día. Añade sitios con <b>+ Al plan</b> y aparecerán aquí en orden.</p>
       <div class="jump"><a href="#ciudad">Qué ver</a><a href="#excursiones">Excursiones</a><a href="#comer">Dónde comer</a></div></div>`;
+  const done = list.filter(x => x.done).length;
+  $('#daysum').innerHTML = list.length ? `<span><b>${list.length}</b> planes · ${done} hechos</span>${travelMin ? `<span>≈<b>${travelMin >= 60 ? Math.floor(travelMin / 60) + ' h ' : ''}${travelMin % 60} min</b> de desplazamientos</span>` : ''}${wxSummary(curDay)}` : wxSummary(curDay);
   clearArmed = false;
-  $('#clearDay').hidden = !list.length;
-  $('#clearDay').textContent = 'Vaciar este día';
+  $('#clearDay').hidden = !list.length; $('#clearDay').textContent = 'Vaciar este día';
+  $('#sortTime').hidden = !list.some(x => x.t);
   $('#planBadge').textContent = plan.reduce((s, d) => s + d.length, 0) || '';
 }
 function syncAddButtons(){
-  document.querySelectorAll('[data-add]').forEach(b => {
+  $$('[data-add]').forEach(b => {
     const ds = daysOf(b.dataset.add);
     b.classList.toggle('in', ds.length > 0);
     b.textContent = ds.length ? ds.map(d => DSHORT[d]).join(' · ') : 'Al plan';
@@ -889,62 +1127,212 @@ function syncAddButtons(){
   });
 }
 function update(){ save(); renderPlan(); syncAddButtons(); }
-
-$('#daytabs').addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b) return;
-  curDay = +b.dataset.d; update();
-});
+$('#daytabs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; curDay = +b.dataset.d; openEdit = null; update(); });
 $('#dayview').addEventListener('click', e => {
-  const b = e.target.closest('.ib'); if (!b) return;
   const l = plan[curDay];
-  if (b.dataset.rm != null){ const [id] = l.splice(+b.dataset.rm, 1); toast(`Quitado: ${CAT[id].n}`); }
-  else { const i = +b.dataset.i, j = i + +b.dataset.mv; [l[i], l[j]] = [l[j], l[i]]; }
-  vt(update);
+  const dn = e.target.closest('[data-done]');
+  if (dn){ const x = l[+dn.dataset.done]; x.done = !x.done; return update(); }
+  const b = e.target.closest('button.ib');
+  if (b){
+    if (b.dataset.rm != null){ const [x] = l.splice(+b.dataset.rm, 1); openEdit = null; toast(`Quitado: ${CAT[x.id].n}`); }
+    else if (b.dataset.mv){ const i = +b.dataset.i, j = i + +b.dataset.mv; [l[i], l[j]] = [l[j], l[i]]; openEdit = j; }
+    return vt(update);
+  }
+  if (e.target.closest('.ped, a')) return;
+  const row = e.target.closest('.pitem'); if (!row) return;
+  openEdit = openEdit === +row.dataset.i ? null : +row.dataset.i; renderPlan();
 });
+$('#dayview').addEventListener('change', e => {
+  const m = e.target.id.match(/^p([tn])-(\d+)$/); if (!m) return;
+  const x = plan[curDay][+m[2]]; if (m[1] === 't') x.t = e.target.value; else x.n = e.target.value;
+  save(); if (m[1] === 't') renderPlan();
+});
+$('#dayview').addEventListener('input', e => { const m = e.target.id.match(/^pn-(\d+)$/); if (m){ plan[curDay][+m[1]].n = e.target.value; save(); } });
+$('#sortTime').addEventListener('click', () => { plan[curDay].sort((a, b) => (tmin(a.t) ?? 9999) - (tmin(b.t) ?? 9999)); openEdit = null; vt(update); });
 $('#clearDay').addEventListener('click', () => {
   if (!clearArmed){ clearArmed = true; $('#clearDay').textContent = 'Pulsa otra vez para vaciar'; return; }
-  plan[curDay] = []; update(); toast(`${DAYS[curDay]} vaciado`);
+  plan[curDay] = []; openEdit = null; update(); toast(`${DAYS[curDay]} vaciado`);
 });
 
+/* add-to-plan sheet */
 const sheet = $('#sheet'); let sheetId = null;
+const openDlg = d => d.showModal ? d.showModal() : d.setAttribute('open', '');
+const closeDlg = d => d.close ? d.close() : d.removeAttribute('open');
 function openSheet(id){
   sheetId = id;
   $('#sheetTitle').textContent = CAT[id].n;
-  document.querySelectorAll('#sheetDays button').forEach(b => b.setAttribute('aria-pressed', plan[+b.dataset.d].includes(id)));
-  if (sheet.showModal) sheet.showModal(); else sheet.setAttribute('open', '');
+  $$('#sheetDays button').forEach(b => {
+    const d = +b.dataset.d, t = LIB.dayText(OH[id], DDOW[d]);
+    b.setAttribute('aria-pressed', plan[d].some(x => x.id === id));
+    b.querySelector('em').textContent = t === '' ? 'Cerrado' : '';
+  });
+  openDlg(sheet);
 }
-const closeSheet = () => { if (sheet.close) sheet.close(); else sheet.removeAttribute('open'); };
 document.addEventListener('click', e => { const b = e.target.closest('[data-add]'); if (b) openSheet(b.dataset.add); });
 $('#sheetDays').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   const d = +b.dataset.d, on = b.getAttribute('aria-pressed') !== 'true';
   b.setAttribute('aria-pressed', on);
-  if (on && !plan[d].includes(sheetId)) plan[d].push(sheetId);
-  if (!on) plan[d] = plan[d].filter(x => x !== sheetId);
+  if (on && !plan[d].some(x => x.id === sheetId)) plan[d].push({id: sheetId, t: '', n: '', done: false});
+  if (!on) plan[d] = plan[d].filter(x => x.id !== sheetId);
   if (on) curDay = d;
-  update();
+  openEdit = null; update();
   const n = $('#planBadge'); n.classList.remove('bump'); void n.offsetWidth; n.classList.add('bump');
   toast(on ? `Añadido al ${DAYS[d].toLowerCase()}` : `Quitado del ${DAYS[d].toLowerCase()}`);
 });
-$('#sheetDone').addEventListener('click', closeSheet);
-sheet.addEventListener('click', e => { if (e.target === sheet) closeSheet(); });
+$('#sheetDone').addEventListener('click', () => closeDlg(sheet));
+sheet.addEventListener('click', e => { if (e.target === sheet) closeDlg(sheet); });
+
+/* share + import */
+const planPayload = () => ({v: 1, d: plan.map(day => day.map(x => [x.id, x.t, x.n, x.done ? 1 : 0]))});
+function planText(){
+  return 'Mi plan para Andorra:\n' + plan.map((day, d) => day.length ? `\n${DAYS[d]}\n` + day.map(x => `· ${x.t ? x.t + ' ' : ''}${CAT[x.id].n}${x.n ? ' (' + x.n + ')' : ''}`).join('\n') : '').join('') + '\n\n';
+}
+$('#shareBtn').addEventListener('click', async () => {
+  if (!plan.some(d => d.length)) return toast('El plan está vacío');
+  const url = SHARE_BASE + '?p=' + LIB.b64e(planPayload());
+  const text = planText();
+  if (navigator.share){ try { await navigator.share({title: 'Plan para Andorra', text, url}); return; } catch (err) { if (err.name === 'AbortError') return; } }
+  const p = $('#sharePanel'); p.hidden = false;
+  p.innerHTML = `<p style="color:var(--muted);font-size:.86rem">El enlace abre esta web con tu plan cargado.</p>
+    <div class="row"><a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(text + url)}" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+    <button type="button" class="btn" id="copyLink">Copiar enlace</button></div>`;
+  $('#copyLink').onclick = () => navigator.clipboard?.writeText(url).then(() => toast('Enlace copiado'), () => toast('No se pudo copiar'));
+});
+(() => {
+  const p = new URLSearchParams(location.search).get('p'); if (!p) return;
+  let data; try { data = LIB.b64d(p); } catch { return; }
+  if (!data || !Array.isArray(data.d)) return;
+  const inc = data.d.map(day => (day || []).filter(x => CAT[x[0]]).map(([id, t, n, done]) => ({id, t: t || '', n: n || '', done: !!done})));
+  const count = inc.reduce((s, d) => s + d.length, 0); if (!count) return;
+  const bn = $('#importBanner'); bn.hidden = false;
+  bn.innerHTML = `<b>Te han pasado un plan con ${count} cosas</b><span style="color:var(--muted);font-size:.9rem">${inc.map((d, i) => d.length ? DAYS[i] + ': ' + d.map(x => CAT[x.id].n).join(', ') : '').filter(Boolean).join(' · ')}</span>
+    <div class="row" style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn primary" data-imp="replace">Usar este plan</button><button type="button" class="btn" data-imp="merge">Juntar con el mío</button><button type="button" class="btn" data-imp="no">Ignorar</button></div>`;
+  bn.addEventListener('click', e => {
+    const b = e.target.closest('[data-imp]'); if (!b) return;
+    if (b.dataset.imp === 'replace') plan = inc;
+    if (b.dataset.imp === 'merge') plan = plan.map((d, i) => [...d, ...inc[i].filter(x => !d.some(y => y.id === x.id))]);
+    bn.hidden = true; history.replaceState(null, '', location.pathname + location.hash);
+    if (b.dataset.imp !== 'no'){ update(); toast('Plan cargado'); }
+  });
+  setTimeout(() => $('#plan').scrollIntoView(), 400);
+})();
 
 let tt;
-function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 1800); }
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 1900); }
 
-/* ---------- FUEL ---------- */
-let fuel = 'g', zone = 'near', showAll = false;
+/* ---------- WEATHER ---------- */
+const WXI = {
+  sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>',
+  part:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M9 1.5V3M2.5 8H4M4.4 3.4l1 1M13.6 3.4l-1 1"/><path d="M8 20h9a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.4 1.8A3.2 3.2 0 0 0 8 20z"/></svg>',
+  cloud:'<svg viewBox="0 0 24 24"><path d="M7 19h10a4.5 4.5 0 0 0 .3-9 6 6 0 0 0-11.5 2A3.6 3.6 0 0 0 7 19z"/></svg>',
+  fog:'<svg viewBox="0 0 24 24"><path d="M4 9h16M2 13h20M4 17h16M7 21h10"/></svg>',
+  rain:'<svg viewBox="0 0 24 24"><path d="M7 15h10a4.5 4.5 0 0 0 .3-9 6 6 0 0 0-11.5 2A3.6 3.6 0 0 0 7 15z"/><path d="M8 18l-1 3M12 18l-1 3M16 18l-1 3"/></svg>',
+  snow:'<svg viewBox="0 0 24 24"><path d="M7 14h10a4.5 4.5 0 0 0 .3-9 6 6 0 0 0-11.5 2A3.6 3.6 0 0 0 7 14z"/><path d="M8 18h.01M12 20h.01M16 18h.01M10 22h.01M14 22h.01"/></svg>',
+  storm:'<svg viewBox="0 0 24 24"><path d="M7 15h10a4.5 4.5 0 0 0 .3-9 6 6 0 0 0-11.5 2A3.6 3.6 0 0 0 7 15z"/><path d="M12 15l-2 4h4l-2 4"/></svg>',
+};
+let WXD = null; // {k: [{am, pm, day, walk}, x3]}
+function processWx(arr){
+  const out = {};
+  arr.forEach((loc, li) => {
+    const h = loc.hourly, k = WX[li].k;
+    out[k] = TRIP_DATES.map(date => {
+      const pick = (a, b) => { const idx = h.time.map((t, i) => [t, i]).filter(([t]) => t.startsWith(date) && +t.slice(11, 13) >= a && +t.slice(11, 13) < b).map(([, i]) => i);
+        return idx.length ? LIB.block({temp: idx.map(i => h.temperature_2m[i]), pop: idx.map(i => h.precipitation_probability[i] ?? 0), snow: idx.map(i => h.snowfall[i] ?? 0), wind: idx.map(i => h.wind_speed_10m[i]), code: idx.map(i => h.weather_code[i])}) : null; };
+      return {am: pick(8, 14), pm: pick(14, 20), day: pick(8, 20), walk: pick(9, 17)};
+    });
+  });
+  return out;
+}
+async function loadWx(){
+  const cached = store.get('andorra-wx', null);
+  try {
+    const u = 'https://api.open-meteo.com/v1/forecast?' + new URLSearchParams({
+      latitude: WX.map(w => w.c[0]).join(','), longitude: WX.map(w => w.c[1]).join(','), elevation: WX.map(w => w.el).join(','),
+      hourly: 'temperature_2m,precipitation_probability,weather_code,snowfall,wind_speed_10m', timezone: 'Europe/Andorra', start_date: TRIP_DATES[0], end_date: TRIP_DATES[2]});
+    const r = await fetch(u); if (!r.ok) throw new Error(r.status);
+    let j = await r.json(); if (!Array.isArray(j)) j = [j];
+    WXD = processWx(j); store.set('andorra-wx', {t: Date.now(), d: WXD});
+    $('#wxMeta').textContent = 'Previsión actualizada a las ' + new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'}) + ' · Open-Meteo';
+  } catch {
+    if (cached){ WXD = cached.d; $('#wxMeta').textContent = 'Sin conexión: previsión guardada el ' + new Date(cached.t).toLocaleString('es-ES', {day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'}); }
+    else { $('#wxMeta').innerHTML = 'No se pudo cargar la previsión. Consulta <a href="https://www.meteo.ad" target="_blank" rel="noopener">meteo.ad</a>.'; return; }
+  }
+  renderWx();
+}
+const deg = n => Math.round(n) + '°';
+function renderWx(){
+  if (!WXD) return;
+  $('#wxDays').innerHTML = WXD.esc.map((b, d) => b.day ? `
+    <article class="card wx-card">
+      <div class="wx-top"><div><p class="mono" style="color:var(--larch)">${DAYS[d]}</p><h3>${LIB.wmo(b.day.code)[0]}</h3></div><span class="wx-ico">${WXI[LIB.wmo(b.day.code)[1]]}</span></div>
+      <p class="wx-t">${deg(b.day.tmax)} <small>/ ${deg(b.day.tmin)}</small></p>
+      <div class="wx-half">
+        <div><b>Mañana</b>${deg(b.am.tmin)}–${deg(b.am.tmax)} · ${b.am.pop}% lluvia</div>
+        <div><b>Tarde</b>${deg(b.pm.tmin)}–${deg(b.pm.tmax)} · ${b.pm.pop}% lluvia</div>
+      </div>
+      <p style="color:var(--muted);font-size:.84rem">Viento hasta ${Math.round(b.day.wind)} km/h${b.day.snow > 0 ? ` · nieve ${b.day.snow.toFixed(1)} cm` : ''}</p>
+    </article>` : '').join('');
+  $('#wxTbl').innerHTML = `<thead><tr><th>Lugar</th>${DAYS.map(d => `<th>${d}</th>`).join('')}</tr></thead><tbody>${WX.slice(1).map(w => `<tr><td><b>${w.n}</b><small>${fmt(w.el)} m</small></td>${WXD[w.k].map(b => b.walk ? `<td>${chip(b.walk)}<small>${deg(b.walk.tmin)}–${deg(b.walk.tmax)} · ${b.walk.pop}% · ${Math.round(b.walk.wind)} km/h</small></td>` : '<td>—</td>').join('')}</tr>`).join('')}</tbody>`;
+  $$('[data-wxrow]').forEach(el => { const s = WXD[el.dataset.wxrow]; if (s) el.innerHTML = s.map((b, d) => b.walk ? chip(b.walk, DSHORT[d] + ' ') : '').join(''); });
+  renderPlan();
+}
+function chip(b, pre = ''){
+  const [cls, label] = LIB.verdict(b), [desc, ico] = LIB.wmo(b.code);
+  return `<span class="vd ${cls}" title="${esc(desc)}">${WXI[ico]}${pre}${label} · ${deg(b.tmax)}</span>`;
+}
+function wxSummary(d){
+  if (!WXD || !WXD.esc[d] || !WXD.esc[d].day) return '';
+  const b = WXD.esc[d].day; return `<span>${LIB.wmo(b.code)[0]} · <b>${deg(b.tmax)}/${deg(b.tmin)}</b> en Escaldes</span>`;
+}
+
+/* ---------- FUEL (live from Govern on every load) ---------- */
+let fuel = 'g', zone = 'near', gsort = 'cheap', showAll = false, gasLive = false;
+const gasKey = s => s.toLowerCase().replace('avda. tarragona andorra', '').replace(/[^a-z0-9]/g, '');
 const ZONES = [['near','Cerca del hotel'], ['south','Salida a España'], ['all','Todas']];
 const SOUTH = ['Sant Julià de Lòria', 'Fontaneda', 'Santa Coloma'];
 const inZone = s => zone === 'all' || (zone === 'near' ? s.m <= 10 : SOUTH.includes(s.t));
 const euro = n => n.toFixed(3).replace('.', ',');
-const gq = s => s.n + ' ' + s.a + ' ' + s.t + ' Andorra';
 $('#zoneF').innerHTML = ZONES.map(([k, l]) => `<button type="button" id="z-${k}" data-z="${k}" aria-pressed="${k === zone}">${l}</button>`).join('');
+$('#gSort').innerHTML = `<button type="button" id="gs-cheap" data-s="cheap" aria-pressed="true">Más barata</button><button type="button" id="gs-near" data-s="near" aria-pressed="false">Más cerca</button>`;
+async function fetchFuel(prod){
+  const n = new Date(), p = v => String(v).padStart(2, '0');
+  const date = `${n.getFullYear()}-${p(n.getMonth() + 1)}-${p(n.getDate())} ${p(n.getHours())}:${p(n.getMinutes())}:${p(n.getSeconds())}`;
+  const r = await fetch('https://sig.govern.ad/IPE/PreusCarburants/GetPreus?' + new URLSearchParams({idProducte: prod, data: date, idParroquia: ''}), {cache: 'no-store'});
+  if (!r.ok) throw new Error(r.status);
+  const doc = new DOMParser().parseFromString(await r.text(), 'text/html');
+  const out = {};
+  doc.querySelectorAll('tr.TRHeader').forEach(tr => {
+    const td = tr.querySelectorAll('td'); if (td.length < 4) return;
+    const price = parseFloat(td[3].textContent.replace(',', '.'));
+    const upd = (tr.nextElementSibling?.textContent.match(/(\d{2})\/(\d{2})\/\d{4}/) || []);
+    if (price) out[gasKey(td[0].textContent)] = {price, u: upd[1] ? upd[1] + '/' + upd[2] : ''};
+  });
+  return out;
+}
+async function loadFuel(){
+  const apply = (live, k) => GAS.forEach(s => { const v = live[gasKey(s.n)]; if (v){ s[k] = v.price; if (v.u) s.u = v.u; } });
+  try {
+    const [g, d] = await Promise.all([fetchFuel(4), fetchFuel(6)]);
+    if (!Object.keys(g).length) throw new Error('vacío');
+    apply(g, 'g'); apply(d, 'd'); gasLive = true;
+    store.set('andorra-gas', {t: Date.now(), g, d});
+    $('#gasDot').classList.remove('off');
+    $('#gasMeta').textContent = 'Precios de hoy, descargados a las ' + new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
+  } catch {
+    const c = store.get('andorra-gas', null);
+    if (c){ apply(c.g, 'g'); apply(c.d, 'd'); $('#gasMeta').textContent = 'Sin conexión: precios guardados el ' + new Date(c.t).toLocaleString('es-ES', {day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'}); }
+    else $('#gasMeta').textContent = 'Sin conexión: precios del 8 de octubre';
+  }
+  renderGas(); if (MAP) drawMap();
+}
 function renderGas(){
-  const list = GAS.filter(s => s[fuel] && inZone(s)).sort((a, b) => a[fuel] - b[fuel] || a.m - b.m);
-  const best = list[0], min = best[fuel];
+  const list = GAS.filter(s => s[fuel] && inZone(s)).sort(gsort === 'near' ? (a, b) => LIB.dist(origin(), a.c) - LIB.dist(origin(), b.c) : (a, b) => a[fuel] - b[fuel] || LIB.dist(origin(), a.c) - LIB.dist(origin(), b.c));
+  if (!list.length) return;
+  const min = Math.min(...list.map(s => s[fuel])), best = list.reduce((a, b) => b[fuel] < a[fuel] ? b : a);
+  const gq = s => s.x ? s.c.join(',') : s.n + ' ' + s.a + ' ' + s.t + ' Andorra';
   $('#bestGas').innerHTML = `<div><p class="mono">La más barata · ${fuel === 'g' ? 'Gasolina 95' : 'Diésel'}</p><h3>${esc(best.n)}</h3>
-    <p>${esc(best.a)}, ${esc(best.t)} · ≈${best.m} min del hotel${best.h ? ' · ' + best.h : ''}</p>
+    <p>${esc(best.a)}, ${esc(best.t)} · ${away(best.c).text}${best.h ? ' · ' + best.h : ''}</p>
     ${best.h ? '' : '<p>Sin horario publicado: comprueba que atienda al público.</p>'}
     <p style="margin-top:8px"><a href="${route(gq(best))}" target="_blank" rel="noopener">Cómo llegar ↗</a></p></div>
     <div class="pr">${euro(min)}<small>€/L · act. ${best.u}</small></div>`;
@@ -952,7 +1340,7 @@ function renderGas(){
   $('#gasList').innerHTML = shown.map((s, i) => {
     const dl = (s[fuel] - min) * 100;
     return `<li><span class="rk">${i + 1}</span>
-      <div style="min-width:0"><b>${esc(s.n)}</b><small>${esc(s.t)} · ≈${s.m} min${s.h ? ' · ' + s.h : ''}</small>
+      <div style="min-width:0"><b>${esc(s.n)}</b><small>${esc(s.t)} · ${away(s.c).text}${s.h ? ' · ' + s.h : ''}</small>
         <a class="nav" href="${route(gq(s))}" target="_blank" rel="noopener">Ir ↗</a></div>
       <div class="pp">${euro(s[fuel])}<small class="${dl < 0.05 ? 'zero' : 'delta'}">${dl < 0.05 ? 'mínimo' : '+' + dl.toFixed(1).replace('.', ',') + ' cts'}</small></div></li>`;
   }).join('');
@@ -961,43 +1349,34 @@ function renderGas(){
 }
 $('#fuelSeg').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  fuel = b.dataset.k;
-  document.querySelectorAll('#fuelSeg button').forEach(x => x.setAttribute('aria-pressed', x === b));
-  $('#fuelSeg .knob').style.setProperty('--k', fuel === 'g' ? 0 : 1);
-  vt(renderGas);
+  fuel = b.dataset.k; $$('#fuelSeg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  $('#fuelSeg .knob').style.setProperty('--k', fuel === 'g' ? 0 : 1); vt(renderGas); if (MAP) drawMap();
 });
-$('#zoneF').addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b) return;
-  zone = b.dataset.z; showAll = false;
-  document.querySelectorAll('#zoneF button').forEach(x => x.setAttribute('aria-pressed', x === b));
-  vt(renderGas);
-});
+$('#zoneF').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; zone = b.dataset.z; showAll = false; $$('#zoneF button').forEach(x => x.setAttribute('aria-pressed', x === b)); vt(renderGas); });
+$('#gSort').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; gsort = b.dataset.s; $$('#gSort button').forEach(x => x.setAttribute('aria-pressed', x === b)); vt(renderGas); });
 $('#gasMore').addEventListener('click', () => { showAll = !showAll; renderGas(); });
 
 /* ---------- PARKING ---------- */
-const HOTEL = [42.50978, 1.54091];
-const distM = (la, lo) => { const r = Math.PI / 180, a = Math.sin((la - HOTEL[0]) * r / 2) ** 2 + Math.cos(HOTEL[0] * r) * Math.cos(la * r) * Math.sin((lo - HOTEL[1]) * r / 2) ** 2; return 12742000 * Math.asin(Math.sqrt(a)); };
-const walk = m => m < 120 ? 'al lado del hotel' : `≈${Math.max(2, Math.round(m * 1.3 / 80))} min a pie`; // ponytail: straight line × 1.3 at 80 m/min, good enough for a valley town
-const PARKS = [
-  {n:'Empark Escaldes Centre', t:'Subterráneo · Telpark', a:'C. de la Constitució, 8', lat:42.51078, lon:1.53944, p:'2,83 €/h', p2:'1,50 €/h con la app Telpark', day:'28,50 €/día · 20,60 € con la app · se puede reservar'},
-  {n:'Aparcament de Caldea', t:'Comunal cubierto', a:'Debajo de Caldea, con ascensor', lat:42.51152, lon:1.53759, p:'≈2,80 €/h', p2:'1ª media hora gratis', day:'Máx. 28 €/día · noche ≈15,50 €'},
-  {n:'Prat Gran', t:'Comunal cubierto', a:'Centro de Escaldes', p:'≈2,68 €/h', p2:'1ª media hora gratis', day:'Noche (20–8 h) 14,83 € · buena relación calidad-precio'},
-  {n:"Clot d'Emprivat", t:'Comunal al aire libre', a:'A 5 min de Caldea', p:'2,48 €/h', p2:'1ª media hora gratis', day:'Noche (20–8 h) 4,31 € · el más barato de noche'},
-  {n:'Els Vilars', t:'Comunal cubierto', a:'Barrio de Els Vilars', p:'≈2,68 €/h', p2:'1ª media hora gratis', day:'Pequeño y sin reserva'},
-  {n:'Les Boigües', t:'Comunal cubierto', a:'Escaldes', p:'≈2,68 €/h', p2:'1ª media hora gratis', day:'Noche (20–8 h) 14,83 €'},
-  {n:'Parking Madriu', t:'Comunal al aire libre', a:"Carretera d'Engolasters", lat:42.50414, lon:1.55224, p:'≈2,50 €/día', p2:'precio por día', day:'Lejos del centro, pero útil para subir a Engolasters o al Madriu'},
-  {n:'Zona azul', t:'En la calle', a:'Calles del centro', p:'1,40 €/h', p2:'L–S 9:30–13 y 15–20 h', day:'Gratis domingos, festivos, de 13 a 15 h y de 20 a 9:30 h', street:1},
-];
-$('#parkList').innerHTML = PARKS.map((k, i) => {
-  const where = k.lat ? walk(distM(k.lat, k.lon)) : 'Escaldes';
-  return `<li><span class="rk">${i + 1}</span>
-    <div style="min-width:0"><b>${esc(k.n)}</b><small>${esc(k.t)} · ${where}</small><small>${esc(k.day)}</small>
-      ${k.street ? '' : `<a class="nav" href="${route(k.n + ' ' + k.a + ' Escaldes-Engordany Andorra')}" target="_blank" rel="noopener">Ir ↗</a>`}</div>
-    <div class="pk-price"><b>${k.p}</b><br><small>${esc(k.p2)}</small></div></li>`;
-}).join('');
-
+function renderParks(){
+  const list = PARKS.map((k, i) => ({...k, i})).sort((a, b) => (a.c ? LIB.dist(origin(), a.c) : 1e9) - (b.c ? LIB.dist(origin(), b.c) : 1e9));
+  $('#parkList').innerHTML = list.map((k, i) => `<li><span class="rk">${i + 1}</span>
+    <div style="min-width:0"><b>${esc(k.n)}</b><small>${esc(k.t)} · ${k.c ? away(k.c).text : esc(k.a)}</small><small>${esc(k.day)}</small>
+      ${k.street ? '' : `<a class="nav" href="${route(k.c ? k.c.join(',') : k.n + ' Escaldes-Engordany Andorra')}" target="_blank" rel="noopener">Ir ↗</a>`}</div>
+    <div class="pk-price"><b>${k.p}</b><br><small>${esc(k.p2)}</small></div></li>`).join('');
+}
 const LIVE = 'https://sit.andorralavella.ad/server/rest/services/Aparcaments/AparcamentsComunals_SQLserver/MapServer/0/query?where=FREEOCCUPANCY%20IS%20NOT%20NULL&outFields=NOM,FREEOCCUPANCY,TOTALOCCUPANCY,COORDX,COORDY,SUBCATEGOR&returnGeometry=false&f=json';
-let liveBusy = false, liveSeen = false;
+let liveBusy = false, liveSeen = false, LIVEROWS = [];
+function renderLive(){
+  const rows = [...LIVEROWS].sort((a, b) => LIB.dist(origin(), a.c) - LIB.dist(origin(), b.c));
+  $('#parkLive').innerHTML = rows.map((r, i) => {
+    const f = r.free / r.tot, cls = f > .3 ? 'ok' : f > .1 ? 'mid' : 'low';
+    return `<li class="${cls}"><span class="rk">${i + 1}</span>
+      <div style="min-width:0"><b>${esc(r.n)}</b><small>${away(r.c).text} · ${r.tot} plazas</small>
+        <div class="occ" style="--f:${(1 - f).toFixed(3)}" role="img" aria-label="${Math.round((1 - f) * 100)} % ocupado"><i></i></div>
+        <a class="nav" href="${route(r.c.join(','))}" target="_blank" rel="noopener">Ir ↗</a></div>
+      <div class="free">${r.free}<small>libres</small></div></li>`;
+  }).join('');
+}
 async function loadLive(){
   if (liveBusy) return; liveBusy = true;
   $('#liveMeta').textContent = 'Actualizando…';
@@ -1005,30 +1384,119 @@ async function loadLive(){
     const ctl = new AbortController(); setTimeout(() => ctl.abort(), 12000);
     const d = await (await fetch(LIVE, {cache: 'no-store', signal: ctl.signal})).json();
     if (!Array.isArray(d.features)) throw new Error('sin datos');
-    const rows = d.features.map(f => f.attributes)
-      .filter(a => a.SUBCATEGOR === 'Aparcament' && !/moto/i.test(a.NOM) && a.TOTALOCCUPANCY > 0)
-      .map(a => ({n: a.NOM.replace(/^\d+A\s*/, ''), free: Math.max(0, Math.min(a.FREEOCCUPANCY, a.TOTALOCCUPANCY)), tot: a.TOTALOCCUPANCY, lat: a.COORDY, lon: a.COORDX, d: distM(a.COORDY, a.COORDX)}))
-      .sort((a, b) => a.d - b.d);
-    $('#parkLive').innerHTML = rows.map((r, i) => {
-      const f = r.free / r.tot, cls = f > .3 ? 'ok' : f > .1 ? 'mid' : 'low';
-      return `<li class="${cls}"><span class="rk">${i + 1}</span>
-        <div style="min-width:0"><b>${esc(r.n)}</b><small>${walk(r.d)} · ${r.tot} plazas</small>
-          <div class="occ" style="--f:${(1 - f).toFixed(3)}" role="img" aria-label="${Math.round((1 - f) * 100)} % ocupado"><i></i></div>
-          <a class="nav" href="${route(r.lat + ',' + r.lon)}" target="_blank" rel="noopener">Ir ↗</a></div>
-        <div class="free">${r.free}<small>libres</small></div></li>`;
-    }).join('');
+    LIVEROWS = d.features.map(f => f.attributes).filter(a => a.SUBCATEGOR === 'Aparcament' && !/moto/i.test(a.NOM) && a.TOTALOCCUPANCY > 0)
+      .map(a => ({n: a.NOM.replace(/^\d+A\s*/, ''), free: Math.max(0, Math.min(a.FREEOCCUPANCY, a.TOTALOCCUPANCY)), tot: a.TOTALOCCUPANCY, c: [a.COORDY, a.COORDX]}));
+    renderLive(); if (MAP) drawMap();
     $('#liveDot').classList.remove('off');
     $('#liveMeta').textContent = 'En directo · actualizado a las ' + new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
   } catch {
     $('#liveDot').classList.add('off');
-    $('#liveMeta').innerHTML = 'No se han podido cargar las plazas en directo. Míralas en el <a href="https://sit.andorralavella.ad/aparcaments/" target="_blank" rel="noopener">mapa oficial</a>.';
+    $('#liveMeta').innerHTML = 'No se han podido cargar las plazas. Míralas en el <a href="https://sit.andorralavella.ad/aparcaments/" target="_blank" rel="noopener">mapa oficial</a>.';
   }
   liveBusy = false;
 }
 $('#liveRefresh').addEventListener('click', loadLive);
 new IntersectionObserver(([en]) => { liveSeen = en.isIntersecting; if (liveSeen) loadLive(); }, {rootMargin: '300px'}).observe($('#parking'));
 setInterval(() => { if (liveSeen && !document.hidden) loadLive(); }, 60000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden && liveSeen) loadLive(); });
+
+/* ---------- HEALTH ---------- */
+function renderHealth(){
+  $('#hospDist').textContent = away([42.51147, 1.53393]).text;
+  $('#pharmList').innerHTML = [...PHARM].sort((a, b) => LIB.dist(origin(), a.c) - LIB.dist(origin(), b.c)).slice(0, 8).map((f, i) => `<li><span class="rk">${i + 1}</span>
+    <div style="min-width:0"><b>${esc(f.n)}</b><small>${away(f.c).text}${f.tel ? ' · ' + telLink(f.tel) : ''}</small></div>
+    <a class="nav" href="${route(f.c.join(','))}" target="_blank" rel="noopener">Ir ↗</a></li>`).join('');
+}
+
+/* ---------- CUSTOMS ---------- */
+let cq = store.get('andorra-aduana', {}), adult = store.get('andorra-adult', true);
+$('#adult').checked = adult;
+$('#cus').innerHTML = LIB.CUSTOMS.map(c => `<div class="card crow" id="cr-${c.k}">
+  <div><b>${c.n}</b><small>${c.u}</small></div>
+  <div class="step"><button type="button" data-st="-1" data-k="${c.k}" aria-label="Menos ${c.n}">−</button><input type="number" inputmode="decimal" min="0" id="cq-${c.k}" value="${cq[c.k] || 0}" aria-label="${c.n}"><button type="button" data-st="1" data-k="${c.k}" aria-label="Más ${c.n}">+</button></div>
+  <div class="bar"><i></i></div><p class="pct"></p></div>`).join('');
+function renderCustoms(){
+  const r = LIB.customs(cq, adult);
+  for (const row of r.rows){
+    const el = $('#cr-' + row.k), share = row.g ? (row.amount ? r.groups[row.g] : 0) : row.pct, over = r.over.includes(row);
+    el.classList.toggle('over', over);
+    el.querySelector('.bar i').style.setProperty('--p', Math.min(share, 1));
+    el.querySelector('.bar i').style.setProperty('--c', share > 1.0001 ? 'var(--alpen)' : share > .8 ? 'var(--larch)' : 'var(--valira)');
+    const unit = ' ' + row.lu, amt = row.lu === 'L' ? row.amount.toFixed(2).replace('.', ',') : fmt(row.amount);
+    el.querySelector('.pct').textContent = row.limit === 0 ? 'Sin franquicia para menores de 17' : `${amt}${unit} de ${String(row.limit).replace('.', ',')}${unit}` + (row.g ? ` · el grupo ${row.g} va al ${Math.round(share * 100)} %` : ` · ${Math.round(row.pct * 100)} %`);
+  }
+  const best = $('#cusBest');
+  best.classList.toggle('red', r.over.length > 0);
+  best.innerHTML = r.over.length
+    ? `<div><p class="mono">Te pasas</p><h3>Tendrías que declarar</h3><p>${r.over.map(o => o.n).join(', ')}. Quita algo o decláralo en la aduana.</p></div><div class="pr">✕<small>FUERA DE CUPO</small></div>`
+    : `<div><p class="mono">Todo bien</p><h3>Dentro de la franquicia</h3><p>Con lo que has apuntado puedes pasar sin declarar. Guarda los tiques.</p></div><div class="pr">✓<small>SIN DECLARAR</small></div>`;
+  store.set('andorra-aduana', cq);
+}
+$('#cus').addEventListener('click', e => {
+  const b = e.target.closest('[data-st]'); if (!b) return;
+  const k = b.dataset.k; cq[k] = Math.max(0, (+cq[k] || 0) + +b.dataset.st); $('#cq-' + k).value = cq[k]; renderCustoms();
+});
+$('#cus').addEventListener('input', e => { const m = e.target.id.match(/^cq-(\w+)$/); if (m){ cq[m[1]] = Math.max(0, parseFloat(e.target.value.replace(',', '.')) || 0); renderCustoms(); } });
+$('#adult').addEventListener('change', e => { adult = e.target.checked; store.set('andorra-adult', adult); renderCustoms(); });
+$('#cusReset').addEventListener('click', () => { cq = {}; $$('#cus input').forEach(i => i.value = 0); renderCustoms(); });
+
+/* ---------- MAP (Leaflet, loaded on demand) ---------- */
+let MAP = null, LAYER = null;
+const CATS = [['ver','Qué ver','#14201D'], ['rutas','Rutas','#22665F'], ['hacer','Planes','#7A4FA3'], ['comer','Comer','#A9620F'], ['gas','Gasolina','#3E4A5C'], ['park','Parking','#2F5E8C'], ['farm','Farmacias','#1E8A4C']];
+let mapOn = store.get('andorra-maplayers', {ver: 1, rutas: 1, hacer: 1, comer: 1, gas: 0, park: 1, farm: 0});
+$('#mapChips').innerHTML = CATS.map(([k, l, c]) => `<button type="button" id="mc-${k}" data-mc="${k}" aria-pressed="${!!mapOn[k]}" style="--c:${c}"><i></i>${l}</button>`).join('');
+$('#mapChips').addEventListener('click', e => { const b = e.target.closest('[data-mc]'); if (!b) return; mapOn[b.dataset.mc] = !mapOn[b.dataset.mc]; b.setAttribute('aria-pressed', !!mapOn[b.dataset.mc]); store.set('andorra-maplayers', mapOn); if (MAP) drawMap(); });
+function loadLeaflet(){
+  return new Promise((res, rej) => {
+    if (window.L) return res();
+    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
+    const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; s.onload = res; s.onerror = rej; document.head.appendChild(s);
+  });
+}
+let mapStarted = false;
+async function initMap(){
+  if (mapStarted) return; mapStarted = true;
+  if (window.NO_MAP){ $('#map').innerHTML = '<div class="map-ph" style="height:100%">El mapa interactivo funciona en la versión web: franmv4.github.io/escapada-andorra</div>'; return; }
+  try { await loadLeaflet(); } catch { $('#map').innerHTML = '<div class="map-ph" style="height:100%">No se pudo cargar el mapa sin conexión. Ábrelo una vez con datos y quedará guardado.</div>'; return; }
+  $('#map').innerHTML = '';
+  MAP = L.map('map', {zoomControl: true, attributionControl: true}).setView(HOTEL, 14);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(MAP);
+  LAYER = L.layerGroup().addTo(MAP);
+  drawMap();
+}
+const dot = c => L.divIcon({className: '', html: `<span class="mk" style="--c:${c}"></span>`, iconSize: [16, 16], iconAnchor: [8, 8]});
+const lbl = (c, t) => L.divIcon({className: '', html: `<span class="mk-lbl" style="--c:${c}">${t}</span>`, iconSize: [0, 0]});
+const popup = (id, name, sub, c, extra = '') => `<b>${esc(name)}</b><br><small style="color:var(--muted)">${esc(sub)}</small>${extra}<div class="pp-act">${id ? addBtn(id) : ''}<a class="go" href="${route(c.join(','))}" target="_blank" rel="noopener">Ir</a></div>`;
+function drawMap(){
+  if (!MAP) return;
+  LAYER.clearLayers();
+  const color = Object.fromEntries(CATS.map(([k, , c]) => [k, c]));
+  L.marker(HOTEL, {icon: L.divIcon({className: '', html: '<span class="mk hotel">★</span>', iconSize: [22, 22], iconAnchor: [11, 11]}), zIndexOffset: 1000}).bindPopup('<b>Hotel & Aparthotel Cosmos</b><br><small>Av. de les Escoles, 10 · tu base</small>').addTo(LAYER);
+  for (const id in CAT){
+    const x = CAT[id]; if (!x.c || !mapOn[x.cat]) continue;
+    const st = OH[id] ? LIB.status(OH[id], new Date()).text : '';
+    L.marker(x.c, {icon: dot(color[x.cat])}).bindPopup(popup(id, x.n, x.s, x.c, st ? `<br><small>${esc(st)}</small>` : '')).addTo(LAYER);
+  }
+  if (mapOn.gas) GAS.filter(s => s.x && s[fuel]).forEach(s => L.marker(s.c, {icon: lbl(color.gas, euro(s[fuel]).slice(0, 4))}).bindPopup(popup(null, s.n, `${fuel === 'g' ? 'Gasolina 95' : 'Diésel'} ${euro(s[fuel])} €/L · act. ${s.u}`, s.c)).addTo(LAYER));
+  if (mapOn.park){
+    LIVEROWS.forEach(r => L.marker(r.c, {icon: lbl(r.free / r.tot > .1 ? color.park : '#A94A36', 'P ' + r.free)}).bindPopup(popup(null, r.n, `${r.free} plazas libres de ${r.tot} · en directo`, r.c)).addTo(LAYER));
+    PARKS.filter(k => k.c).forEach(k => L.marker(k.c, {icon: lbl(color.park, 'P')}).bindPopup(popup(null, k.n, `${k.t} · ${k.p}`, k.c)).addTo(LAYER));
+  }
+  if (mapOn.farm){
+    PHARM.forEach(f => L.marker(f.c, {icon: dot(color.farm)}).bindPopup(popup(null, f.n, 'Farmacia', f.c)).addTo(LAYER));
+    L.marker([42.51147, 1.53393], {icon: lbl('#A94A36', '+ Hospital')}).bindPopup(popup(null, 'Hospital Nostra Senyora de Meritxell', 'Urgencias 24 h · +376 871 000', [42.51147, 1.53393])).addTo(LAYER);
+  }
+  if (useMe && me) L.marker(me, {icon: L.divIcon({className: '', html: '<span class="mk me"></span>', iconSize: [16, 16], iconAnchor: [8, 8]}), zIndexOffset: 2000}).bindPopup('Estás aquí').addTo(LAYER);
+}
+$('#mapAll').addEventListener('click', () => { if (!MAP) return; MAP.fitBounds([[42.43, 1.42], [42.65, 1.78]]); });
+new IntersectionObserver((ents, ob) => { if (ents[0].isIntersecting){ ob.disconnect(); initMap(); } }, {rootMargin: '600px'}).observe($('#mapa'));
+
+/* ---------- DISTANCES (hotel or me) ---------- */
+function refreshDistances(){
+  syncLocButtons();
+  $$('[data-dst]').forEach(el => { const c = el.dataset.dst.split(',').map(Number); el.textContent = el.dataset.dst ? away(c).text : ''; el.hidden = !el.dataset.dst; });
+  renderRests(); renderGas(); renderParks(); renderLive(); renderHealth();
+  if (MAP){ drawMap(); if (useMe && me) MAP.setView(me, Math.max(MAP.getZoom(), 14)); }
+}
 
 /* ---------- PHRASES + CREDITS ---------- */
 $('#phrases').innerHTML = PHRASES.map(([ca, es], i) => `
@@ -1041,35 +1509,49 @@ $('#phrases').addEventListener('click', e => {
   const sel = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Seleccionada'; };
   try { navigator.clipboard.writeText(el.textContent).then(ok, sel); } catch { sel(); }
 });
-$('#credits').innerHTML = Object.values(CREDITS).map(c =>
-  `<li><a href="${esc(c.page)}" target="_blank" rel="noopener">${esc(c.title.replace(/^File:/, ''))}</a> · ${esc(c.artist || 'autor desconocido')} · ${esc(c.lic)}</li>`).join('');
+$('#credits').innerHTML = Object.values(CREDITS).map(c => `<li><a href="${esc(c.page)}" target="_blank" rel="noopener">${esc(c.title.replace(/^File:/, ''))}</a> · ${esc(c.artist || 'autor desconocido')} · ${esc(c.lic)}</li>`).join('');
 
-/* ---------- COUNTDOWN ---------- */
+/* ---------- MORE SHEET ---------- */
+const moreSheet = $('#moreSheet');
+$('#moreList').innerHTML = $$('.topnav a').map(a => `<a href="${a.getAttribute('href')}">${a.textContent}</a>`).join('');
+$('#moreBtn').addEventListener('click', () => openDlg(moreSheet));
+$('#moreList').addEventListener('click', e => { if (e.target.closest('a')) closeDlg(moreSheet); });
+$('#moreDone').addEventListener('click', () => closeDlg(moreSheet));
+moreSheet.addEventListener('click', e => { if (e.target === moreSheet) closeDlg(moreSheet); });
+
+/* ---------- COUNTDOWN + BOOT ---------- */
 (() => {
   const now = new Date(), start = new Date(2026, 9, 10), end = new Date(2026, 9, 13);
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const days = Math.round((start - today) / 864e5);
   $('#countdown').textContent = days > 1 ? `Faltan ${days} días` : days === 1 ? 'Sales mañana' : now < end ? `Día ${1 - days} de 3` : 'Viaje completado';
-  if (!hadSaved && days <= 0 && now < end) curDay = -days; // first open during the trip: show today
+  if (!hadSaved && days <= 0 && now < end) curDay = -days;
 })();
-
-renderRests(); renderGas(); renderPlan(); syncAddButtons();
+refreshDistances(); renderCustoms(); renderPlan(); syncAddButtons(); refreshHours();
 if (hadSaved) $('#savedNote').textContent = 'Guardado en este navegador.';
+if (store.get('andorra-loc', false)) setLocation(true);
+loadWx(); loadFuel();
+setInterval(refreshHours, 60000);
+
+/* offline badge + install + service worker */
+const net = () => { $('#offline').hidden = navigator.onLine; };
+addEventListener('online', () => { net(); loadWx(); loadFuel(); }); addEventListener('offline', net); net();
+let installEvt = null;
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; $('#installBtn').hidden = false; });
+$('#installBtn').addEventListener('click', async () => { if (!installEvt) return; installEvt.prompt(); await installEvt.userChoice; installEvt = null; $('#installBtn').hidden = true; });
+if ('serviceWorker' in navigator && location.protocol === 'https:' && !window.NO_SW) navigator.serviceWorker.register('sw.js').catch(() => {});
 
 /* ---------- SPOTLIGHT (mouse only) ---------- */
 document.addEventListener('pointermove', e => {
   if (e.pointerType !== 'mouse') return;
   const c = e.target.closest?.('.spot'); if (!c) return;
   const r = c.getBoundingClientRect();
-  c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-  c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
 }, {passive: true});
 
 /* ---------- ALTIMETER + NAV STATE ---------- */
 (() => {
-  const marks = [...document.querySelectorAll('[data-alt]')];
-  const navs = [...document.querySelectorAll('.topnav a, .tabbar a')];
-  const sections = [...document.querySelectorAll('main section')];
+  const marks = $$('[data-alt]'), navs = $$('.topnav a, .tabbar a'), sections = $$('main section');
   const alti = $('.alti'), tabbar = $('#tabbar');
   let cur = 1023, target = 1023, place = 'Andorra la Vella', raf = 0, lastY = scrollY;
   function pick(){
@@ -1079,10 +1561,10 @@ document.addEventListener('pointermove', e => {
     target = +best.dataset.alt; place = best.dataset.place;
     let onId = null;
     for (const s of sections) if (s.getBoundingClientRect().top < mid) onId = s.id;
+    if (onId === 'parking') onId = 'gasolina';
     navs.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + onId));
     const y = scrollY;
-    if (y > lastY + 6 && y > 500) tabbar.classList.add('hide');
-    else if (y < lastY - 6) tabbar.classList.remove('hide');
+    if (y > lastY + 6 && y > 500) tabbar.classList.add('hide'); else if (y < lastY - 6) tabbar.classList.remove('hide');
     lastY = y;
     if (!raf) raf = requestAnimationFrame(tick);
   }
@@ -1093,9 +1575,7 @@ document.addEventListener('pointermove', e => {
     $('#altV').textContent = fmt(cur) + ' m'; $('#altP').textContent = place;
     raf = cur !== target ? requestAnimationFrame(tick) : 0;
   }
-  addEventListener('scroll', pick, {passive: true});
-  addEventListener('resize', pick);
-  pick();
+  addEventListener('scroll', pick, {passive: true}); addEventListener('resize', pick); pick();
 })();
 
 /* ---------- HERO RIDGES ---------- */
@@ -1125,8 +1605,8 @@ document.addEventListener('pointermove', e => {
       layers.push({k, pts});
     }
     for (let i = 0; i < (narrow ? 60 : 110); i++) stars.push([rnd() * W, rnd() * H * 0.42, rnd() * 1.3 + .2, rnd() * 6.28]);
-    const L = layers[3].pts;
-    for (let i = 0; i < L.length; i += 2) if (rnd() < 0.55) trees.push([L[i][0] + rnd() * 4, L[i][1], 6 + rnd() * 9]);
+    const Lp = layers[3].pts;
+    for (let i = 0; i < Lp.length; i += 2) if (rnd() < 0.55) trees.push([Lp[i][0] + rnd() * 4, Lp[i][1], 6 + rnd() * 9]);
   }
   function draw(t){
     const sy = scrollY;

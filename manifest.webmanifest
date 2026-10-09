@@ -1,0 +1,15 @@
+{
+  "name": "Escapada a Andorra",
+  "short_name": "Andorra",
+  "description": "Plan, mapa, tiempo, sin gluten, gasolineras y parkings para la escapada a Andorra",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0C1722",
+  "theme_color": "#0C1722",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
